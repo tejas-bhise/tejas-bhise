@@ -39,7 +39,7 @@ const Home = ({ setPage }) => {
             
             <div className="flex flex-wrap gap-4 justify-center mb-12">
               <button 
-                onClick={() => setPage('work')}
+                onClick={() => setPage('projects')}
                 className="px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all flex items-center gap-2 group shadow-lg shadow-gray-900/20"
               >
                 View All Projects 
@@ -56,7 +56,7 @@ const Home = ({ setPage }) => {
 
             <div className="flex gap-4 justify-center">
               <a 
-                href="https://github.com/tejasbhise" 
+                href="https://github.com/tejas-bhise" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 bg-white hover:bg-gray-100 rounded-xl flex items-center justify-center text-gray-700 transition-all shadow-md border border-gray-200"
@@ -64,7 +64,7 @@ const Home = ({ setPage }) => {
                 <Github className="w-5 h-5" />
               </a>
               <a 
-                href="https://linkedin.com/in/tejasbhise" 
+                href="https://www.linkedin.com/in/tejas-bhise" 
                 target="_blank" 
                 rel="noopener noreferrer" 
                 className="w-12 h-12 bg-white hover:bg-gray-100 rounded-xl flex items-center justify-center text-gray-700 transition-all shadow-md border border-gray-200"
@@ -297,7 +297,7 @@ const Home = ({ setPage }) => {
 
         <div className="text-center mt-12">
           <button 
-            onClick={() => setPage('work')}
+            onClick={() => setPage('projects')}
             className="px-8 py-4 bg-gray-900 text-white rounded-xl font-semibold hover:bg-gray-800 transition-all inline-flex items-center gap-2 group shadow-lg"
           >
             View All Projects

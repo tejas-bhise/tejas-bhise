@@ -8,10 +8,10 @@ const Footer = () => (
         <p className="text-gray-600 text-sm">© 2026 Tejas Bhise. All rights reserved.</p>
       </div>
       <div className="flex gap-6">
-        <a href="https://github.com/tejasbhise" className="text-gray-600 hover:text-black transition-colors">
+        <a href="https://github.com/tejas-bhise" className="text-gray-600 hover:text-black transition-colors">
           <Github className="w-5 h-5" />
         </a>
-        <a href="https://linkedin.com/in/tejasbhise" className="text-gray-600 hover:text-black transition-colors">
+        <a href="https://www.linkedin.com/in/tejas-bhise" className="text-gray-600 hover:text-black transition-colors">
           <Linkedin className="w-5 h-5" />
         </a>
         <a href="mailto:tejasbhise1013@gmail.com" className="text-gray-600 hover:text-black transition-colors">
