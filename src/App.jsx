@@ -1,63 +1,84 @@
-import React, { useState, useEffect } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import AnimatedBackground from './components/AnimatedBackground';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './pages/Home';
-import Projects from './pages/Projects';
-import Resume from './pages/Resume';
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
-const App = () => {
-  const [page, setPage] = useState('home');
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./pages/Home";
+import Projects from "./pages/Projects";
+import Resume from "./pages/Resume";
 
-  // Prevent hash navigation
-  useEffect(() => {
-    const handleHashChange = () => {
-      window.history.replaceState(null, '', window.location.pathname);
-    };
-    
-    window.addEventListener('hashchange', handleHashChange);
-    
-    // Clean URL on mount
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
+/* --------------------------------------- */
+/* INDUSTRY STANDARD: Directional Micro-Slide + Crossfade */
+/* Used in: SaaS dashboards, product websites, corporate portfolios */
+/* Duration: 0.3s | No flash, no overlay, HR-friendly */
+/* --------------------------------------- */
+
+const pageVariants = {
+  initial: { 
+    opacity: 0, 
+    y: 8  // Slide up from 8px below
+  },
+  animate: { 
+    opacity: 1, 
+    y: 0  // Settle at normal position
+  },
+  exit: { 
+    opacity: 0, 
+    y: -8  // Slide up 8px while fading out
+  }
+};
+
+const pageTransition = {
+  duration: 0.3,
+  ease: [0.4, 0, 0.2, 1]  // cubic-bezier for smooth professional feel
+};
+
+/* --------------------------------------- */
+
+function App() {
+  const [currentPage, setCurrentPage] = useState("home");
+
+  const handlePageChange = (page) => {
+    if (page !== currentPage) {
+      setCurrentPage(page);
     }
-    
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
+  };
 
   const renderPage = () => {
-    switch(page) {
-      case 'home': return <Home setPage={setPage} />;
-      case 'projects': return <Projects />;
-      case 'resume': return <Resume setPage={setPage} />;
-      default: return <Home setPage={setPage} />;
+    switch (currentPage) {
+      case "home":
+        return <Home setPage={handlePageChange} />;
+      case "projects":
+        return <Projects setPage={handlePageChange} />;
+      case "resume":
+        return <Resume setPage={handlePageChange} />;
+      default:
+        return <Home setPage={handlePageChange} />;
     }
   };
 
   return (
-    <div className="min-h-screen text-white font-sans overflow-x-hidden antialiased relative">
-      <AnimatedBackground />
-      
-      <div className="relative z-10">
-        <Navbar page={page} setPage={setPage} />
-        
-        <main className="max-w-7xl mx-auto px-6">
-          <AnimatePresence mode="wait">
-            <React.Fragment key={page}>
-              {renderPage()}
-            </React.Fragment>
-          </AnimatePresence>
-        </main>
+    <div className="min-h-screen flex flex-col bg-[#0b0b0f]">
+      <Navbar currentPage={currentPage} setPage={handlePageChange} />
 
-        <Footer />
-      </div>
+      <main className="flex-grow pt-20">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentPage}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            {renderPage()}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+
+      <Footer />
     </div>
   );
-};
+}
 
 export default App;

@@ -1,7 +1,52 @@
-import { motion } from 'framer-motion';
-import { Mail, Phone, Github, Linkedin, Download, MapPin, Calendar, Award, Star, Code, Briefcase, GraduationCap } from 'lucide-react';
+import { motion, useInView } from 'framer-motion';
+import { 
+  Mail, 
+  Phone, 
+  Github, 
+  Linkedin, 
+  Download, 
+  MapPin, 
+  Calendar, 
+  Award, 
+  Star, 
+  Code, 
+  GraduationCap,
+  Briefcase,
+  Rocket,
+  Trophy,
+  Zap,
+  BookOpen,
+  Shield,
+  Target,
+  Users
+} from 'lucide-react';
+import { useRef } from 'react';
 import PageWrapper from '../components/PageWrapper';
-import Card from '../components/Card';
+
+// AnimatedSection Component
+const AnimatedSection = ({ children, className = '' }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
+  
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+// Card Component
+const Card = ({ children, className = '' }) => (
+  <div className={`rounded-2xl border border-white/10 overflow-hidden shadow-xl transition-all duration-300 ${className}`}>
+    {children}
+  </div>
+);
 
 const Resume = ({ setPage }) => {
   const handleDownloadResume = () => {
@@ -15,31 +60,56 @@ const Resume = ({ setPage }) => {
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('Download error:', error);
-      // Fallback: open in new tab
       window.open('/Tejas_Bhise.pdf', '_blank');
     }
   };
 
-  // Contact Information
   const contactInfo = [
-    { icon: Phone, label: '+91-8796872925', href: 'tel:+918796872925' },
-    { icon: Mail, label: 'tejasbhise1013@gmail.com', href: 'mailto:tejasbhise1013@gmail.com' },
-    { icon: Github, label: 'github.com/tejas-bhise', href: 'https://github.com/tejas-bhise' },
-    { icon: Linkedin, label: 'linkedin.com/in/tejas-bhise', href: 'https://www.linkedin.com/in/tejas-bhise' }
+    { icon: Phone, label: '+91-8796872925', href: 'tel:+918796872925', gradient: 'from-green-500 to-emerald-500', bg: 'bg-green-500/10' },
+    { icon: Mail, label: 'tejasbhise1013@gmail.com', href: 'mailto:tejasbhise1013@gmail.com', gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-500/10' },
+    { icon: Github, label: 'github.com/tejas-bhise', href: 'https://github.com/tejas-bhise', gradient: 'from-gray-400 to-gray-600', bg: 'bg-gray-500/10' },
+    { icon: Linkedin, label: 'linkedin.com/in/tejas-bhise', href: 'https://www.linkedin.com/in/tejas-bhise', gradient: 'from-indigo-500 to-blue-600', bg: 'bg-indigo-500/10' }
   ];
 
-  // Skills organized by category
-  const skills = {
-    "Languages": ["Python", "SQL", "JavaScript", "TypeScript"],
-    "AI & ML": ["Google Gemini API", "LLMs", "Prompt Engineering", "Machine Learning"],
-    "Backend": ["FastAPI", "Flask", "Node.js", "Express", "RESTful APIs"],
-    "Frontend": ["React", "Next.js 15", "Three.js", "TailwindCSS"],
-    "Data Science": ["NumPy", "Pandas", "Matplotlib", "Seaborn", "scikit-learn"],
-    "Tools": ["Git", "GitHub", "VS Code", "Vercel", "Render", "Jupyter", "Google Colab"]
-  };
+  const skillCategories = [
+    {
+      title: "LANGUAGES",
+      icon: Code,
+      color: "from-blue-500 to-blue-600",
+      skills: ["Python", "SQL", "JavaScript", "TypeScript"]
+    },
+    {
+      title: "AI & ML",
+      icon: Zap,
+      color: "from-purple-500 to-purple-600",
+      skills: ["Google Gemini API", "LLMs", "Prompt Engineering", "Machine Learning"]
+    },
+    {
+      title: "BACKEND",
+      icon: Shield,
+      color: "from-green-500 to-green-600",
+      skills: ["FastAPI", "Flask", "Node.js", "Express", "RESTful APIs"]
+    },
+    {
+      title: "FRONTEND",
+      icon: Rocket,
+      color: "from-cyan-500 to-cyan-600",
+      skills: ["React", "Next.js 15", "Three.js", "TailwindCSS"]
+    },
+    {
+      title: "DATA SCIENCE",
+      icon: Target,
+      color: "from-orange-500 to-orange-600",
+      skills: ["NumPy", "Pandas", "Matplotlib", "Seaborn", "scikit-learn"]
+    },
+    {
+      title: "TOOLS",
+      icon: Briefcase,
+      color: "from-pink-500 to-pink-600",
+      skills: ["Git", "GitHub", "VS Code", "Vercel", "Render", "Jupyter", "Google Colab"]
+    }
+  ];
 
-  // Education
   const education = [
     {
       degree: "B.E in Computer Science",
@@ -65,7 +135,6 @@ const Resume = ({ setPage }) => {
     }
   ];
 
-  // Experience
   const experience = [
     {
       role: "AI / ML Intern",
@@ -91,11 +160,12 @@ const Resume = ({ setPage }) => {
     }
   ];
 
-  // Featured Projects (condensed from Projects page)
   const featuredProjects = [
     {
       name: "Saarthi - 3D AI Tutor Platform",
       tech: "Three.js, Google Gemini 2.0 Flash, Node.js, Express",
+      gradient: "from-purple-500 to-pink-500",
+      icon: Rocket,
       highlights: [
         "Built an AI-powered tutoring platform featuring an interactive 3D virtual tutor providing real-time academic assistance through voice and text",
         "Integrated Google Gemini API for conversational responses and implemented Speech-to-Text and Text-to-Speech for natural interaction",
@@ -105,6 +175,8 @@ const Resume = ({ setPage }) => {
     {
       name: "ClarifAiSQL - Natural Language to SQL Converter",
       tech: "Next.js 15, TypeScript, FastAPI, Python",
+      gradient: "from-cyan-500 to-blue-500",
+      icon: Zap,
       highlights: [
         "Built full-stack AI application converting natural language to SQL using Google Gemini API with in-memory SQLite",
         "Developed Next.js 15 frontend with TypeScript and TailwindCSS featuring CSV drag-and-drop, real-time SQL generation, and AI explanations",
@@ -113,21 +185,16 @@ const Resume = ({ setPage }) => {
     }
   ];
 
-  // Certifications
   const certifications = [
-    { name: "Python for Data Science", issuer: "NPTEL" },
-    { name: "ML Deployment with FastAPI & Docker", issuer: "Udemy" },
-    { name: "ChatGPT Generative AI", issuer: "Udemy" },
-    { name: "AI for All", issuer: "Infosys" }
+    { name: "Python for Data Science", issuer: "NPTEL", icon: BookOpen },
+    { name: "ML Deployment with FastAPI & Docker", issuer: "Udemy", icon: Rocket },
+    { name: "ChatGPT Generative AI", issuer: "Udemy", icon: Zap },
+    { name: "AI for All", issuer: "Infosys", icon: Target }
   ];
 
-  // Achievements
   const achievements = [
     {
       icon: Award,
-      color: "from-yellow-500 to-orange-500",
-      bgColor: "bg-yellow-50",
-      textColor: "text-yellow-900",
       title: "Copyright Holder",
       subtitle: "Local E-Connect",
       description: "Copyright registered for a concept focused on improving digital visibility, market access, and sales opportunities for small local vendors",
@@ -135,19 +202,13 @@ const Resume = ({ setPage }) => {
     },
     {
       icon: Star,
-      color: "from-purple-500 to-pink-500",
-      bgColor: "bg-purple-50",
-      textColor: "text-purple-900",
       title: "Grand Finalist",
       subtitle: "Yophoria Innovation Challenge 2025",
       description: "Recognized for reaching the Grand Finale of India's premier AI Innovation Challenge focused on solving real-world problems in AI Agent Engineering",
       badge: "Organized by YoLearn.ai & GLA University"
     },
     {
-      icon: Star,
-      color: "from-blue-500 to-cyan-500",
-      bgColor: "bg-blue-50",
-      textColor: "text-blue-900",
+      icon: Users,
       title: "Student Ambassador",
       subtitle: "LetsUpgrade Community",
       description: "Achieved 30% increase in event participation by organizing technical workshops that reached 1000+ students",
@@ -155,9 +216,6 @@ const Resume = ({ setPage }) => {
     },
     {
       icon: Code,
-      color: "from-green-500 to-emerald-500",
-      bgColor: "bg-green-50",
-      textColor: "text-green-900",
       title: "HackerRank 5-Star Python",
       subtitle: "Problem Solving Badge",
       description: "Achieved 5-star rating in Python programming on HackerRank platform",
@@ -167,328 +225,453 @@ const Resume = ({ setPage }) => {
 
   return (
     <PageWrapper>
-      <section className="pt-32 pb-20">
-        {/* HEADER */}
-        <div className="text-center mb-12">
+      <div 
+        className="min-h-screen w-full"
+        style={{
+          background: 'linear-gradient(180deg, #0a1929 0%, #0d1e2e 50%, #0f2638 100%)',
+        }}
+      >
+        <div className="fixed inset-0 pointer-events-none -z-10 overflow-hidden">
+          <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-violet-600/5 blur-[150px] rounded-full" />
+          <div className="absolute bottom-[30%] left-[-10%] w-[400px] h-[400px] bg-cyan-600/5 blur-[130px] rounded-full" />
+        </div>
+
+        <section className="pt-32 pb-20 container mx-auto px-6 relative z-10">
+          {/* 10/10 HERO HEADER */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
+            className="mb-20"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-3">
-              Tejas Bhise
-            </h1>
-            <p className="text-xl text-gray-600 mb-6">Python Backend Engineer & AI Developer</p>
-            
-            {/* Contact Info */}
-            <div className="flex flex-wrap justify-center gap-4 mb-8">
-              {contactInfo.map((contact, index) => (
-                <motion.a
-                  key={index}
-                  href={contact.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg hover:border-indigo-500 hover:shadow-md transition-all text-sm text-gray-700 hover:text-indigo-600"
-                >
-                  <contact.icon className="w-4 h-4" />
-                  <span>{contact.label}</span>
-                </motion.a>
-              ))}
-            </div>
-
-            {/* Download Resume Button */}
-            <motion.button
-              onClick={handleDownloadResume}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-xl transition-all font-medium text-lg"
-            >
-              <Download className="w-5 h-5" />
-              Download PDF Resume
-            </motion.button>
-          </motion.div>
-        </div>
-
-        {/* PROFESSIONAL SUMMARY */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-16"
-        >
-          <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-2 border-indigo-200">
-            <div className="p-8 text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">Professional Summary</h2>
-              <p className="text-gray-700 text-lg leading-relaxed max-w-4xl mx-auto">
-                Python Backend Engineer & AI Developer with a strong interest in building scalable APIs and AI-powered applications that address real-world problems. Experienced in FastAPI and LLM integration, and committed to writing clean, maintainable code while continuously learning and improving as an engineer.
-              </p>
-            </div>
-          </Card>
-        </motion.div>
-
-        {/* TECHNICAL SKILLS */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-indigo-600 to-purple-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Technical Skills</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {Object.entries(skills).map(([category, items], index) => (
-              <motion.div
-                key={category}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.05 }}
-              >
-                <Card className="bg-white/90 backdrop-blur-sm h-full hover:shadow-xl transition-shadow duration-300">
-                  <div className="p-6">
-                    <h3 className="text-sm font-bold text-indigo-600 uppercase tracking-wider mb-4">
-                      {category}
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
-                      {items.map((skill) => (
-                        <span
-                          key={skill}
-                          className="px-3 py-1.5 bg-gray-100 text-gray-700 rounded-lg text-xs font-medium hover:bg-indigo-100 hover:text-indigo-700 transition-colors"
-                        >
-                          {skill}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* EDUCATION */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Education</h2>
-          </div>
-
-          <div className="space-y-4">
-            {education.map((edu, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="bg-white/90 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex-1">
-                        <h3 className="text-xl font-bold text-gray-900 mb-1">{edu.degree}</h3>
-                        <p className="text-gray-700 font-medium mb-1">{edu.institution}</p>
-                        {edu.university && (
-                          <p className="text-sm text-gray-600 italic">{edu.university}</p>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium">
-                        <GraduationCap className="w-4 h-4" />
-                        {edu.score}
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-600">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {edu.duration}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {edu.location}
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* EXPERIENCE */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-green-600 to-emerald-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Experience</h2>
-          </div>
-
-          <div className="space-y-6">
-            {experience.map((exp, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="bg-white/90 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                          <h3 className="text-xl font-bold text-gray-900">{exp.role}</h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            exp.type === 'Internship' 
-                              ? 'bg-green-100 text-green-700' 
-                              : 'bg-blue-100 text-blue-700'
-                          }`}>
-                            {exp.type}
-                          </span>
-                        </div>
-                        <p className="text-gray-700 font-medium mb-2">{exp.company}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4 text-sm text-gray-600 mb-4">
-                      <div className="flex items-center gap-1">
-                        <Calendar className="w-4 h-4" />
-                        {exp.duration}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-4 h-4" />
-                        {exp.location}
-                      </div>
-                    </div>
-                    <ul className="space-y-2">
-                      {exp.responsibilities.map((resp, idx) => (
-                        <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
-                          <span className="text-green-600 mt-1">•</span>
-                          <span>{resp}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* FEATURED PROJECTS */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-purple-600 to-pink-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Featured Projects</h2>
-          </div>
-
-          <div className="space-y-6">
-            {featuredProjects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-              >
-                <Card className="bg-white/90 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">{project.name}</h3>
-                    <p className="text-sm text-indigo-600 font-medium mb-4">{project.tech}</p>
-                    <ul className="space-y-2">
-                      {project.highlights.map((highlight, idx) => (
-                        <li key={idx} className="text-sm text-gray-700 flex items-start gap-2">
-                          <span className="text-purple-600 mt-1">•</span>
-                          <span>{highlight}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* ACHIEVEMENTS */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-yellow-600 to-orange-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Achievements & Recognition</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {achievements.map((achievement, index) => (
-              <motion.div
-                key={index}
+            <div className="text-center mb-12">
+              <motion.h1 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                transition={{ delay: 0.2, duration: 0.6 }}
+                className="text-7xl md:text-8xl font-bold mb-6"
               >
-                <Card className="bg-white/90 backdrop-blur-sm h-full hover:shadow-xl transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className={`w-12 h-12 rounded-lg bg-gradient-to-br ${achievement.color} flex items-center justify-center flex-shrink-0`}>
-                        <achievement.icon className="w-6 h-6 text-white" />
+                <span className="bg-gradient-to-r from-white via-violet-200 to-cyan-200 bg-clip-text text-transparent">
+                  Tejas Bhise
+                </span>
+              </motion.h1>
+              
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+                className="text-2xl md:text-3xl mb-12"
+              >
+                <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent font-semibold">
+                  Python Backend Engineer & AI Developer
+                </span>
+              </motion.p>
+              
+              {/* UNIQUE CONTACT CARDS */}
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 max-w-5xl mx-auto">
+                {contactInfo.map((contact, index) => (
+                  <motion.a
+                    key={index}
+                    href={contact.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    whileHover={{ y: -8, scale: 1.05 }}
+                    transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
+                    className={`${contact.bg} backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-white/30 transition-all group`}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={`w-11 h-11 rounded-lg bg-gradient-to-br ${contact.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
+                        <contact.icon className="w-5 h-5 text-white" />
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-900 mb-1">{achievement.title}</h3>
-                        <p className="text-sm font-medium text-gray-600 mb-2">{achievement.subtitle}</p>
-                      </div>
+                      <span className="text-sm text-white font-medium text-left flex-1">{contact.label}</span>
                     </div>
-                    <p className="text-sm text-gray-700 mb-3 leading-relaxed">{achievement.description}</p>
-                    <div className={`inline-block px-3 py-1 ${achievement.bgColor} ${achievement.textColor} rounded-lg text-xs font-medium`}>
-                      {achievement.badge}
-                    </div>
-                  </div>
-                </Card>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+                  </motion.a>
+                ))}
+              </div>
 
-        {/* CERTIFICATIONS */}
-        <div className="mb-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="w-2 h-8 bg-gradient-to-b from-orange-600 to-red-600 rounded-full"></div>
-            <h2 className="text-3xl font-bold text-gray-900">Certifications</h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {certifications.map((cert, index) => (
+              {/* DOWNLOAD BUTTON */}
               <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
               >
-                <Card className="bg-white/90 backdrop-blur-sm hover:shadow-lg transition-shadow">
-                  <div className="p-4 flex items-center gap-4">
-                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0">
-                      <Award className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-gray-900 text-sm">{cert.name}</h3>
-                      <p className="text-xs text-gray-600">{cert.issuer}</p>
-                    </div>
-                  </div>
-                </Card>
+                <button
+                  onClick={handleDownloadResume}
+                  className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-violet-600 via-purple-600 to-cyan-600 text-white rounded-xl hover:shadow-2xl hover:shadow-violet-500/40 transition-all font-bold text-lg hover:scale-105"
+                >
+                  <Download className="w-6 h-6" />
+                  Download PDF Resume
+                </button>
               </motion.div>
-            ))}
-          </div>
-        </div>
+            </div>
+          </motion.div>
 
-        {/* BOTTOM DOWNLOAD BUTTON */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center"
-        >
-          <button
-            onClick={handleDownloadResume}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:shadow-xl transition-all font-medium text-lg"
+          {/* PROFESSIONAL SUMMARY */}
+          <AnimatedSection className="mb-20">
+            <Card className="bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-transparent border-indigo-500/20 hover:border-indigo-500/40 backdrop-blur-sm">
+              <div className="p-10 text-center">
+                <h2 className="text-3xl font-bold text-white mb-5">Professional Summary</h2>
+                <p className="text-gray-300 text-lg leading-relaxed max-w-4xl mx-auto">
+                  Python Backend Engineer & AI Developer with a strong interest in building scalable APIs and AI-powered applications that address real-world problems. Experienced in FastAPI and LLM integration, and committed to writing clean, maintainable code while continuously learning and improving as an engineer.
+                </p>
+              </div>
+            </Card>
+          </AnimatedSection>
+
+          {/* TECHNICAL SKILLS - DIFFERENT ICONS */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-violet-600 to-purple-600 flex items-center justify-center shadow-lg"
+              >
+                <Code className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Technical Skills</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {skillCategories.map((category, index) => {
+                const IconComp = category.icon;
+                return (
+                  <motion.div
+                    key={category.title}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -8, scale: 1.02 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-[#0f2638]/80 backdrop-blur-sm border-white/10 h-full hover:bg-[#132d42]/90 hover:border-violet-500/30 hover:shadow-2xl hover:shadow-violet-500/10">
+                      <div className={`h-1 bg-gradient-to-r ${category.color}`} />
+                      <div className="p-6">
+                        <div className="flex items-center gap-3 mb-4">
+                          <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${category.color} flex items-center justify-center shadow-lg`}>
+                            <IconComp className="w-5 h-5 text-white" />
+                          </div>
+                          <h3 className={`text-sm font-bold uppercase tracking-wider bg-gradient-to-r ${category.color} bg-clip-text text-transparent`}>
+                            {category.title}
+                          </h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {category.skills.map((skill) => (
+                            <motion.span
+                              key={skill}
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              className="px-3 py-1.5 bg-slate-700/40 text-slate-200 rounded-lg text-xs font-medium border border-slate-600/30 hover:bg-slate-600/50 hover:border-slate-500/50 transition-all cursor-default"
+                            >
+                              {skill}
+                            </motion.span>
+                          ))}
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* EDUCATION */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-600 flex items-center justify-center shadow-lg"
+              >
+                <GraduationCap className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Academic Journey</h2>
+            </div>
+
+            <div className="relative">
+              <div className="absolute left-8 top-8 bottom-8 w-1 bg-gradient-to-b from-violet-600 via-blue-600 to-cyan-600 rounded-full hidden md:block" />
+
+              <div className="space-y-6">
+                {education.map((edu, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: index * 0.15 }}
+                    className="relative"
+                  >
+                    <div className="absolute left-6 top-8 w-5 h-5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 border-4 border-[#0f2638] shadow-lg hidden md:block z-10" />
+
+                    <motion.div whileHover={{ x: 5 }}>
+                      <Card className="bg-[#0f2638]/80 backdrop-blur-sm border-white/10 hover:bg-[#132d42]/90 hover:border-cyan-500/30 md:ml-20 hover:shadow-xl">
+                        <div className="p-6">
+                          <div className="flex flex-col lg:flex-row justify-between gap-4 mb-4">
+                            <div className="flex-1">
+                              <h3 className="text-xl font-bold text-cyan-400 mb-2">{edu.degree}</h3>
+                              <p className="text-white font-medium mb-1">{edu.institution}</p>
+                              {edu.university && (
+                                <p className="text-sm text-cyan-400/70 italic">{edu.university}</p>
+                              )}
+                            </div>
+                            <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 text-emerald-300 rounded-xl text-sm font-bold h-fit border border-emerald-500/30">
+                              <GraduationCap className="w-4 h-4" />
+                              {edu.score}
+                            </div>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
+                            <div className="flex items-center gap-2">
+                              <Calendar className="w-4 h-4" />
+                              {edu.duration}
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <MapPin className="w-4 h-4" />
+                              {edu.location}
+                            </div>
+                          </div>
+                        </div>
+                      </Card>
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* EXPERIENCE - STANDS OUT */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.3 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-green-600 to-emerald-600 flex items-center justify-center shadow-lg"
+              >
+                <Briefcase className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Professional Experience</h2>
+            </div>
+
+            <div className="space-y-6">
+              {experience.map((exp, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  whileHover={{ y: -5 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <Card className="bg-gradient-to-br from-[#162a3d] to-[#0f2638] backdrop-blur-sm border-green-500/20 hover:border-green-500/40 hover:shadow-2xl hover:shadow-green-500/10">
+                    <div className="p-7">
+                      <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-2 flex-wrap">
+                            <h3 className="text-2xl font-bold text-green-400">{exp.role}</h3>
+                            <span className={`px-3 py-1.5 rounded-full text-xs font-bold uppercase ${
+                              exp.type === 'Internship' 
+                                ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                                : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                            }`}>
+                              {exp.type}
+                            </span>
+                          </div>
+                          <p className="text-white font-semibold text-lg mb-3">{exp.company}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-sm text-gray-400 mb-6">
+                        <div className="flex items-center gap-2">
+                          <Calendar className="w-4 h-4" />
+                          {exp.duration}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <MapPin className="w-4 h-4" />
+                          {exp.location}
+                        </div>
+                      </div>
+                      <ul className="space-y-3">
+                        {exp.responsibilities.map((resp, idx) => (
+                          <li key={idx} className="text-sm text-gray-200 flex items-start gap-3 leading-relaxed">
+                            <span className="text-green-400 mt-1 text-lg">•</span>
+                            <span>{resp}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* FEATURED PROJECTS - STAND OUT */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.4 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-purple-600 to-pink-600 flex items-center justify-center shadow-lg"
+              >
+                <Rocket className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Featured Projects</h2>
+            </div>
+
+            <div className="space-y-6">
+              {featuredProjects.map((project, index) => {
+                const IconComp = project.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -5 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-gradient-to-br from-[#1a2d42] to-[#0f2638] backdrop-blur-sm border-purple-500/20 hover:border-purple-500/40 hover:shadow-2xl hover:shadow-purple-500/10">
+                      <div className={`h-1.5 bg-gradient-to-r ${project.gradient}`} />
+                      <div className="p-7">
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${project.gradient} flex items-center justify-center shadow-lg flex-shrink-0`}>
+                            <IconComp className="w-7 h-7 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className={`text-2xl font-bold bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent mb-2`}>
+                              {project.name}
+                            </h3>
+                            <p className="text-violet-400 font-semibold text-sm">{project.tech}</p>
+                          </div>
+                        </div>
+                        <ul className="space-y-3 mt-5">
+                          {project.highlights.map((highlight, idx) => (
+                            <li key={idx} className="text-sm text-gray-200 flex items-start gap-3 leading-relaxed">
+                              <span className="text-purple-400 mt-1 text-lg">•</span>
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ACHIEVEMENTS */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-yellow-600 to-orange-600 flex items-center justify-center shadow-lg"
+              >
+                <Trophy className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Achievements & Recognition</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {achievements.map((achievement, index) => {
+                const IconComp = achievement.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-[#0f2638]/80 backdrop-blur-sm border-white/10 h-full hover:bg-[#132d42]/90 hover:border-yellow-500/30 hover:shadow-xl">
+                      <div className="p-6">
+                        <div className="flex items-start gap-4 mb-4">
+                          <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                            <IconComp className="w-6 h-6 text-white" />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="text-lg font-bold text-white mb-1">{achievement.title}</h3>
+                            <p className="text-sm font-medium text-gray-400 mb-2">{achievement.subtitle}</p>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-300 mb-4 leading-relaxed">{achievement.description}</p>
+                        <div className="inline-block px-3 py-1.5 bg-white/5 text-white rounded-lg text-xs font-medium border border-white/10">
+                          {achievement.badge}
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* CERTIFICATIONS - UNIQUE LOOK */}
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-10">
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.6 }}
+                className="w-14 h-14 rounded-2xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center shadow-lg"
+              >
+                <Award className="w-7 h-7 text-white" />
+              </motion.div>
+              <h2 className="text-4xl font-bold text-white">Certifications</h2>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {certifications.map((cert, index) => {
+                const IconComp = cert.icon;
+                return (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -30, rotateY: -15 }}
+                    whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
+                    viewport={{ once: true }}
+                    whileHover={{ x: 5, scale: 1.03, rotateY: 2 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                  >
+                    <Card className="bg-gradient-to-br from-orange-900/20 via-red-900/10 to-transparent border-orange-500/20 hover:border-orange-500/40 backdrop-blur-sm hover:shadow-lg hover:shadow-orange-500/10">
+                      <div className="p-5 flex items-center gap-4">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                          <IconComp className="w-7 h-7 text-white" />
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-white text-base mb-1">{cert.name}</h3>
+                          <p className="text-xs text-orange-400 font-medium">{cert.issuer}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* BOTTOM DOWNLOAD BUTTON */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center"
           >
-            <Download className="w-5 h-5" />
-            Download Complete Resume (PDF)
-          </button>
-        </motion.div>
-      </section>
+            <button
+              onClick={handleDownloadResume}
+              className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-violet-600 via-purple-600 to-cyan-600 text-white rounded-xl hover:shadow-2xl hover:shadow-violet-500/40 transition-all font-bold text-lg hover:scale-105"
+            >
+              <Download className="w-6 h-6" />
+              Download Complete Resume (PDF)
+            </button>
+          </motion.div>
+        </section>
+      </div>
     </PageWrapper>
   );
 };
