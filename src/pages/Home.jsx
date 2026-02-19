@@ -1,4 +1,5 @@
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useInView, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, 
   Github, 
@@ -211,7 +212,7 @@ const Home = ({ setPage }) => {
                   </div>
                   <h3 className="text-xl font-bold mb-2 text-white">{item.title}</h3>
                   <p className="text-sm font-semibold mb-3 text-white/80">{item.subtitle}</p>
-                  <p className="text-sm mb-4 leading-relaxed text-white/80 flex-grow">{item.description}</p>
+                  <p className="text-sm mb-4 leading-relaxed text.white/80 flex-grow">{item.description}</p>
                   <p className="text-xs font-mono text-white/60 mt-auto">{item.detail}</p>
                 </Card>
               </motion.div>
@@ -257,7 +258,7 @@ const Home = ({ setPage }) => {
                         <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">The Challenge</h4>
                         <p className="text-white/80 text-sm leading-relaxed">Non-technical users struggle to query databases without SQL knowledge, creating barriers to data access and insights.</p>
                       </div>
-                      <div className="p-4 rounded-xl bg-white/5 border border-white/10">
+                      <div className="p-4 rounded-xl bg.white/5 border border-white/10">
                         <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">The Solution</h4>
                         <p className="text-white/80 text-sm leading-relaxed">Built a comprehensive system that converts natural language to SQL, provides detailed explanations, shows the generated query, and returns instant results—all in one interface.</p>
                       </div>
@@ -284,7 +285,7 @@ const Home = ({ setPage }) => {
               </Card>
             </AnimatedSection>
 
-            {/* Saarthi */}
+            {/* Saarthi – UPDATED ONLY TEXT/STACK/FEATURES */}
             <AnimatedSection>
               <Card className="bg-gradient-to-br from-white/[0.08] to-white/[0.03] backdrop-blur-md p-8 hover:-translate-y-1">
                 <div className="grid md:grid-cols-3 gap-8">
@@ -294,15 +295,26 @@ const Home = ({ setPage }) => {
                       <span className="bg-emerald-400/20 text-emerald-400 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-emerald-400/30">Completed</span>
                     </div>
                     <p className="text-white/80 text-sm mb-6 leading-relaxed">
-                      AI Learning Companion - Making quality education accessible through immersive 3D AI tutoring
+                      24/7 real-time 3D AI tutor that provides immersive, LLM-powered learning support through voice and text, designed for students who cannot afford private coaching.
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {["Three.js", "Google Gemini", "Node.js", "WebRTC"].map(tech => (
-                        <span key={tech} className="px-3 py-1 bg-white/5 text-white/60 border border-white/10 rounded-lg text-xs font-medium">{tech}</span>
+                      {[
+                        "React",
+                        "Three.js",
+                        "FastAPI",
+                        "WebSocket",
+                        "Redis",
+                        "PostgreSQL",
+                        "Google Gemini API",
+                        "STT/TTS"
+                      ].map(tech => (
+                        <span key={tech} className="px-3 py-1 bg-white/5 text-white/60 border border-white/10 rounded-lg text-xs font-medium">
+                          {tech}
+                        </span>
                       ))}
                     </div>
                     <p className="text-[11px] text-white/60">
-                      <strong>Deployment:</strong> Vercel (Frontend) & Render (Backend)
+                      <strong>Deployment:</strong> Vercel (Frontend) & production-ready backend with live API endpoints
                     </p>
                   </div>
                   
@@ -310,28 +322,45 @@ const Home = ({ setPage }) => {
                     <div className="grid md:grid-cols-2 gap-6 mb-6">
                       <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                         <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">The Challenge</h4>
-                        <p className="text-white/80 text-sm leading-relaxed">Many students cannot afford private coaching classes and lack immediate assistance when doubts arise during self-study, hindering their learning progress.</p>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Many students cannot afford private coaching classes and often get stuck during self-study with nobody to answer their doubts. This slows progress, weakens fundamentals, and reduces confidence over time.
+                        </p>
                       </div>
                       <div className="p-4 rounded-xl bg-white/5 border border-white/10">
                         <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">The Solution</h4>
-                        <p className="text-white/80 text-sm leading-relaxed">Created an accessible 3D AI tutor that provides instant doubt resolution through both voice and text interactions, offering personalized learning support anytime, anywhere.</p>
+                        <p className="text-white/80 text-sm leading-relaxed">
+                          Built a 24/7 real-time AI tutoring platform where a 3D virtual mentor answers questions over WebSockets, maintains conversation context in Redis, stores history in PostgreSQL, and delivers clear, step-by-step explanations through both voice and text.
+                        </p>
                       </div>
                     </div>
                     
                     <div className="bg-white/5 rounded-xl p-6 border border-white/10">
                       <h4 className="text-[10px] font-bold text-purple-400 uppercase tracking-wider mb-3">Technical Features</h4>
                       <ul className="space-y-2">
-                        {[
-                          'Interactive 3D avatar tutors with realistic lip-sync animation',
-                          'Dual interaction modes: voice chat and text messaging',
-                          'Real-time AI responses powered by Google Gemini 2.0 API',
-                          'Collaborative whiteboard for visual learning and problem-solving',
-                          'Session recording for review and continuous learning'
-                        ].map((feature, idx) => (
-                          <li key={idx} className="text-sm text-white/80 flex items-start gap-2">
-                            <span className="text-purple-400">•</span> <span>{feature}</span>
-                          </li>
-                        ))}
+                        <li className="text-sm text-white/80 flex items-start gap-2">
+                          <span className="text-purple-400">•</span>
+                          <span>
+                            Real-time, multi-turn tutoring sessions over WebSockets with 24/7 availability from the browser.
+                          </span>
+                        </li>
+                        <li className="text-sm text-white/80 flex items-start gap-2">
+                          <span className="text-purple-400">•</span>
+                          <span>
+                            Redis-backed session memory and PostgreSQL storage for context-aware conversations and persistent session history.
+                          </span>
+                        </li>
+                        <li className="text-sm text.white/80 flex items-start gap-2">
+                          <span className="text-purple-400">•</span>
+                          <span>
+                            End-to-end AI pipeline: Speech-to-Text → prompt structuring → Gemini reasoning → response post-processing → Text-to-Speech → 3D avatar lip-sync.
+                          </span>
+                        </li>
+                        <li className="text-sm text-white/80 flex items-start gap-2">
+                          <span className="text-purple-400">•</span>
+                          <span>
+                            Three.js 3D tutor with dual interaction modes (voice chat + text chat) and early analytics layer for tracking sessions and learning patterns.
+                          </span>
+                        </li>
                       </ul>
                     </div>
                   </div>
@@ -548,7 +577,7 @@ const Home = ({ setPage }) => {
                       </div>
                     </div>
                   ) : (
-                    // ENGLISH VERSION - FULL CONTENT RESTORED
+                    // ENGLISH VERSION
                     <div className="space-y-6 leading-relaxed text-gray-800">
                       <div className="text-center mb-6">
                         <p className="text-xl font-bold text-gray-900 mb-2">
@@ -687,7 +716,7 @@ const Home = ({ setPage }) => {
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href="mailto:tejasbhise1013@gmail.com" className="px-8 py-4 bg-white text-gray-900 rounded-xl font-bold hover:bg-gray-100 transition-all hover:scale-105">Get In Touch</a>
-              <button onClick={() => setPage('resume')} className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white border-2 border-white rounded-xl font-bold hover:bg-white/30 transition-all hover:scale-105">View Resume</button>
+              <button onClick={() => setPage('resume')} className="px-8 py-4 bg-white/20 backdrop-blur-sm text-white border-2 border-white rounded-xl font-bold hover:bg.white/30 transition-all hover:scale-105">View Resume</button>
             </div>
           </div>
         </Card>

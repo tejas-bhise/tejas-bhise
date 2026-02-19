@@ -1,4 +1,6 @@
 import { motion, useInView } from 'framer-motion';
+import { Database } from "lucide-react";
+
 import { 
   Mail, 
   Phone, 
@@ -23,6 +25,7 @@ import {
 import { useRef } from 'react';
 import PageWrapper from '../components/PageWrapper';
 
+
 // AnimatedSection Component
 const AnimatedSection = ({ children, className = '' }) => {
   const ref = useRef(null);
@@ -41,6 +44,7 @@ const AnimatedSection = ({ children, className = '' }) => {
   );
 };
 
+
 // Card Component
 const Card = ({ children, className = '' }) => (
   <div className={`rounded-2xl border border-white/10 overflow-hidden shadow-xl transition-all duration-300 ${className}`}>
@@ -48,21 +52,24 @@ const Card = ({ children, className = '' }) => (
   </div>
 );
 
+
 const Resume = ({ setPage }) => {
   const handleDownloadResume = () => {
-    try {
-      const link = document.createElement('a');
-      link.href = '/Tejas_Bhise.pdf';
-      link.download = 'Tejas_Bhise_Resume.pdf';
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (error) {
-      window.open('/Tejas_Bhise.pdf', '_blank');
-    }
-  };
+  try {
+    const link = document.createElement('a');
+    link.href = '/Tejas_Bhise_AI_Backend_Resume.pdf';
+    link.download = 'Tejas_Bhise_AI_Backend_Resume.pdf';
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  } catch (error) {
+    window.open('/Tejas_Bhise_AI_Backend_Resume.pdf', '_blank');
+  }
+};
+
+
 
   const contactInfo = [
     { icon: Phone, label: '+91-8796872925', href: 'tel:+918796872925', gradient: 'from-green-500 to-emerald-500', bg: 'bg-green-500/10' },
@@ -71,44 +78,58 @@ const Resume = ({ setPage }) => {
     { icon: Linkedin, label: 'linkedin.com/in/tejas-bhise', href: 'https://www.linkedin.com/in/tejas-bhise', gradient: 'from-indigo-500 to-blue-600', bg: 'bg-indigo-500/10' }
   ];
 
-  const skillCategories = [
-    {
-      title: "LANGUAGES",
-      icon: Code,
-      color: "from-blue-500 to-blue-600",
-      skills: ["Python", "SQL", "JavaScript", "TypeScript"]
-    },
-    {
-      title: "AI & ML",
-      icon: Zap,
-      color: "from-purple-500 to-purple-600",
-      skills: ["Google Gemini API", "LLMs", "Prompt Engineering", "Machine Learning"]
-    },
-    {
-      title: "BACKEND",
-      icon: Shield,
-      color: "from-green-500 to-green-600",
-      skills: ["FastAPI", "Flask", "Node.js", "Express", "RESTful APIs"]
-    },
-    {
-      title: "FRONTEND",
-      icon: Rocket,
-      color: "from-cyan-500 to-cyan-600",
-      skills: ["React", "Next.js 15", "Three.js", "TailwindCSS"]
-    },
-    {
-      title: "DATA SCIENCE",
-      icon: Target,
-      color: "from-orange-500 to-orange-600",
-      skills: ["NumPy", "Pandas", "Matplotlib", "Seaborn", "scikit-learn"]
-    },
-    {
-      title: "TOOLS",
-      icon: Briefcase,
-      color: "from-pink-500 to-pink-600",
-      skills: ["Git", "GitHub", "VS Code", "Vercel", "Render", "Jupyter", "Google Colab"]
-    }
-  ];
+
+const skillCategories = [
+  {
+    title: "LANGUAGES",
+    icon: Code,
+    color: "from-blue-500 to-indigo-600",
+    glow: "shadow-blue-500/20",
+    skills: ["Python", "SQL", "JavaScript", "TypeScript"]
+  },
+  {
+    title: "BACKEND & APIs",
+    icon: Shield,
+    color: "from-emerald-500 to-teal-600",
+    glow: "shadow-emerald-500/20",
+    skills: ["FastAPI", "RESTful APIs", "WebSockets"]
+  },
+  {
+    title: "DATABASES",
+    icon: Database,
+    color: "from-rose-500 to-red-600",
+    glow: "shadow-rose-500/20",
+    skills: ["PostgreSQL", "Redis"]
+  },
+  {
+    title: "AI & ML",
+    icon: Zap,
+    color: "from-purple-500 to-pink-600",
+    glow: "shadow-purple-500/20",
+    skills: ["Google Gemini API", "LLMs", "Prompt Engineering", "Machine Learning"]
+  },
+  {
+    title: "FRONTEND",
+    icon: Rocket,
+    color: "from-cyan-500 to-blue-600",
+    glow: "shadow-cyan-500/20",
+    skills: ["React", "Next.js 15", "Three.js", "TailwindCSS"]
+  },
+  {
+    title: "DATA SCIENCE",
+    icon: Target,
+    color: "from-amber-500 to-orange-600",
+    glow: "shadow-orange-500/20",
+    skills: ["NumPy", "Pandas", "Matplotlib", "Seaborn", "scikit-learn"]
+  },
+  {
+    title: "TOOLS",
+    icon: Briefcase,
+    color: "from-slate-500 to-gray-700",
+    glow: "shadow-slate-500/20",
+    skills: ["Git", "GitHub", "Vercel", "Render", "Jupyter Notebook", "Google Colab"]
+  }
+];
 
   const education = [
     {
@@ -135,6 +156,7 @@ const Resume = ({ setPage }) => {
     }
   ];
 
+
   const experience = [
     {
       role: "AI / ML Intern",
@@ -160,16 +182,17 @@ const Resume = ({ setPage }) => {
     }
   ];
 
+
   const featuredProjects = [
     {
-      name: "Saarthi - 3D AI Tutor Platform",
-      tech: "Three.js, Google Gemini 2.0 Flash, Node.js, Express",
+      name: "Saarthi - Real-Time 3D AI Tutor Platform",
+      tech: "React, Three.js, FastAPI, WebSocket, Redis, PostgreSQL, Google Gemini API, STT/TTS",
       gradient: "from-purple-500 to-pink-500",
       icon: Rocket,
       highlights: [
-        "Built an AI-powered tutoring platform featuring an interactive 3D virtual tutor providing real-time academic assistance through voice and text",
-        "Integrated Google Gemini API for conversational responses and implemented Speech-to-Text and Text-to-Speech for natural interaction",
-        "Developed backend APIs using FastAPI and deployed the application for public access and testing"
+        "Built a production-style tutoring platform enabling 24/7, multi-turn, context-aware conversations using WebSockets, Redis session memory, and PostgreSQL-backed persistent storage for user history and structured session data",
+        "Implemented an end-to-end AI pipeline — Speech-to-Text → prompt structuring → Gemini API reasoning → response post-processing → Text-to-Speech → 3D avatar lip sync — designed for reliable, real-time explanations instead of single-shot responses",
+        "Developed monitoring and analytics views for session tracking and progress insights, and deployed fully functional backend services with live API endpoints ready for real user traffic"
       ]
     },
     {
@@ -185,12 +208,14 @@ const Resume = ({ setPage }) => {
     }
   ];
 
+
   const certifications = [
     { name: "Python for Data Science", issuer: "NPTEL", icon: BookOpen },
     { name: "ML Deployment with FastAPI & Docker", issuer: "Udemy", icon: Rocket },
     { name: "ChatGPT Generative AI", issuer: "Udemy", icon: Zap },
     { name: "AI for All", issuer: "Infosys", icon: Target }
   ];
+
 
   const achievements = [
     {
@@ -223,6 +248,7 @@ const Resume = ({ setPage }) => {
     }
   ];
 
+
   return (
     <PageWrapper>
       <div 
@@ -235,6 +261,7 @@ const Resume = ({ setPage }) => {
           <div className="absolute top-[20%] right-[-10%] w-[500px] h-[500px] bg-violet-600/5 blur-[150px] rounded-full" />
           <div className="absolute bottom-[30%] left-[-10%] w-[400px] h-[400px] bg-cyan-600/5 blur-[130px] rounded-full" />
         </div>
+
 
         <section className="pt-32 pb-20 container mx-auto px-6 relative z-10">
           {/* 10/10 HERO HEADER */}
@@ -291,6 +318,7 @@ const Resume = ({ setPage }) => {
                 ))}
               </div>
 
+
               {/* DOWNLOAD BUTTON */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -308,6 +336,7 @@ const Resume = ({ setPage }) => {
             </div>
           </motion.div>
 
+
           {/* PROFESSIONAL SUMMARY */}
           <AnimatedSection className="mb-20">
             <Card className="bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-transparent border-indigo-500/20 hover:border-indigo-500/40 backdrop-blur-sm">
@@ -319,6 +348,7 @@ const Resume = ({ setPage }) => {
               </div>
             </Card>
           </AnimatedSection>
+
 
           {/* TECHNICAL SKILLS - DIFFERENT ICONS */}
           <div className="mb-20">
@@ -333,6 +363,7 @@ const Resume = ({ setPage }) => {
               </motion.div>
               <h2 className="text-4xl font-bold text-white">Technical Skills</h2>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {skillCategories.map((category, index) => {
@@ -376,6 +407,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* EDUCATION */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-10">
@@ -390,8 +422,10 @@ const Resume = ({ setPage }) => {
               <h2 className="text-4xl font-bold text-white">Academic Journey</h2>
             </div>
 
+
             <div className="relative">
               <div className="absolute left-8 top-8 bottom-8 w-1 bg-gradient-to-b from-violet-600 via-blue-600 to-cyan-600 rounded-full hidden md:block" />
+
 
               <div className="space-y-6">
                 {education.map((edu, index) => (
@@ -404,6 +438,7 @@ const Resume = ({ setPage }) => {
                     className="relative"
                   >
                     <div className="absolute left-6 top-8 w-5 h-5 rounded-full bg-gradient-to-r from-violet-600 to-cyan-600 border-4 border-[#0f2638] shadow-lg hidden md:block z-10" />
+
 
                     <motion.div whileHover={{ x: 5 }}>
                       <Card className="bg-[#0f2638]/80 backdrop-blur-sm border-white/10 hover:bg-[#132d42]/90 hover:border-cyan-500/30 md:ml-20 hover:shadow-xl">
@@ -440,6 +475,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* EXPERIENCE - STANDS OUT */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-10">
@@ -453,6 +489,7 @@ const Resume = ({ setPage }) => {
               </motion.div>
               <h2 className="text-4xl font-bold text-white">Professional Experience</h2>
             </div>
+
 
             <div className="space-y-6">
               {experience.map((exp, index) => (
@@ -506,6 +543,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* FEATURED PROJECTS - STAND OUT */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-10">
@@ -519,6 +557,7 @@ const Resume = ({ setPage }) => {
               </motion.div>
               <h2 className="text-4xl font-bold text-white">Featured Projects</h2>
             </div>
+
 
             <div className="space-y-6">
               {featuredProjects.map((project, index) => {
@@ -562,6 +601,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* ACHIEVEMENTS */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-10">
@@ -575,6 +615,7 @@ const Resume = ({ setPage }) => {
               </motion.div>
               <h2 className="text-4xl font-bold text-white">Achievements & Recognition</h2>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {achievements.map((achievement, index) => {
@@ -611,6 +652,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* CERTIFICATIONS - UNIQUE LOOK */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-10">
@@ -624,6 +666,7 @@ const Resume = ({ setPage }) => {
               </motion.div>
               <h2 className="text-4xl font-bold text-white">Certifications</h2>
             </div>
+
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {certifications.map((cert, index) => {
@@ -654,6 +697,7 @@ const Resume = ({ setPage }) => {
             </div>
           </div>
 
+
           {/* BOTTOM DOWNLOAD BUTTON */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -675,5 +719,6 @@ const Resume = ({ setPage }) => {
     </PageWrapper>
   );
 };
+
 
 export default Resume;
