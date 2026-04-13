@@ -41,14 +41,11 @@
 > NAME        : Tejas Bhise
 > LOCATION    : Pune, Maharashtra, India
 > DEGREE      : B.E Computer Engineering
-> UNIVERSITY  : NMIET Pune
-> CGPA        : 8.15 / 10
 > GRAD_YEAR   : 2026
 > PRODUCTS    : 3 deployed, live, real users
 > COPYRIGHT   : Govt. of India — L-133251/2023
 > HACKATHON   : Finalist — AI Agent Engineer
 > MENTORED    : 1000+ students
-> STREAK      : 550+ days CodeChef
 > STATUS      : Open to Work 🌏
 ```
 
@@ -122,64 +119,158 @@
 
 ## 🚀 PROJECTS
 
+<table>
+
+<tr>
+
+<td width="50%" valign="top">
+
 ### 🧠 ClarifAiSQL
 *Users can't query their own data because SQL is a barrier — so I removed the barrier.*
 
 **Problem:** Non-technical users are locked out of their own databases. SQL requires expertise they don't have.
+
 **Solution:** Natural Language → Gemini reasoning → SQL + explanation → live result. CSV upload with auto schema detection.
+
 **Stack:** Python · FastAPI · Google Gemini API · SQLite · React
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/tejas-bhise/ClarifaiSQL)
-[![Live](https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://clarifaisql.vercel.app)
+<br>
 
----
+<a href="https://github.com/tejas-bhise/ClarifaiSQL">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://clarifaisql.vercel.app">
+<img src="https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+
+</td>
+
+
+<td width="50%" valign="top">
 
 ### 🤖 Saarthi
 *Students don't need another video — they need a tutor who actually listens.*
 
-**Problem:** Quality tutoring is a privilege. Most students study alone with no memory, no feedback, no personalisation.
-**Solution:** Real-time 3D AI tutor — Voice → Gemini → TTS → Avatar Lip Sync. Redis session memory so it remembers you.
+**Problem:** Quality tutoring is expensive and one-way learning platforms don’t adapt to individual needs.
+
+**Solution:** Real-time 3D AI tutor with voice interaction, memory context and lip-synced avatar responses.
+
 **Stack:** React · FastAPI · PostgreSQL · Redis · Three.js · Google Gemini API · WebSocket
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/tejas-bhise/Saarthi)
-[![Live](https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://saarthi-ai-iota.vercel.app/)
+<br>
 
----
+<a title="Confidential Repo">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
 
-### 🌐 Prarambh AI
-*Every startup began as an idea with no roadmap — now that roadmap takes 60 seconds.*
+<a href="https://saarthi-ai-iota.vercel.app/">
+<img src="https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
 
-**Problem:** Early founders have raw ideas but no execution blueprint. The gap between idea and action is too wide.
-**Solution:** AI system that converts a raw startup idea into a structured roadmap with market, tech, and execution layers.
-**Stack:** Next.js · React · TypeScript · AI Integration
+</td>
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/tejas-bhise/pararambh-frontend)
-[![Live](https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://pararambh-frontend.vercel.app/)
+</tr>
 
----
+
+<tr>
+
+<td width="50%" valign="top">
+
+### 🏢 Operis
+*Leaders don’t have a data problem — they have a clarity problem.*
+
+**Problem:** Company activity is scattered across Jira, Slack, GitHub and other tools, making it difficult to identify what actually needs attention.
+
+**Solution:** Unified intelligence layer that extracts important signals across tools and produces structured briefings every 30 minutes.
+
+**Stack:** React · FastAPI · PostgreSQL · Integrations · REST APIs
+
+<br>
+
+<a title="Confidential Repo">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://operis-ai.vercel.app">
+<img src="https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+
+</td>
+
+
+<td width="50%" valign="top">
 
 ### 🛡️ FedShield
 *Federated learning was trusted blindly — I made it verifiable.*
 
-**Problem:** Adversarial clients silently poison federated models. There was no defense layer.
-**Solution:** Flower-based security layer detecting anomalous client updates via proxy validation + NLP threat scoring.
+**Problem:** Malicious clients inject hidden backdoors or manipulate gradients, compromising the global model.
+
+**Solution:** Hybrid anomaly detection combining behavioural shift detection and gradient deviation validation using proxy dataset evaluation.
+
 **Stack:** Python · FastAPI · scikit-learn · PostgreSQL · Flower
 
-> 🔧 *Under active development — no public links yet.*
+<br>
 
----
+**Results:** 69.1% accuracy · 3.5% backdoor success · 100% detection rate
 
-## 🏆 ACHIEVEMENTS
+</td>
 
-1) Secured official **Government of India Copyright** for *Local E-Connect* — Reg. No: **L-133251/2023**
+</tr>
 
-2) **Hackathon Finalist — AI Agent Engineer** — built and demoed a working AI agent under time pressure with real judges.
 
-3) **CodeChef 550+ day streak** — consistent daily problem-solving. A habit, not a burst.
+<tr>
 
-4) **HackerRank 5-Star Python** — top-tier Python rating on the platform.
+<td width="50%" valign="top">
 
-5) **LetsUpgrade Gold Ambassador** — mentored **1000+ students** through study groups and 1:1 career guidance.
+### 🌐 Prarambh AI
+*Every startup began as an idea with no roadmap — now that roadmap takes 60 seconds.*
+
+**Problem:** Early founders have raw ideas but no structured execution plan.
+
+**Solution:** AI engine converts startup ideas into structured technical and business roadmap.
+
+**Stack:** Next.js · React · TypeScript · AI Integration
+
+<br>
+
+<a href="https://github.com/tejas-bhise/pararambh-frontend">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://pararambh-frontend.vercel.app/">
+<img src="https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+
+</td>
+
+
+<td width="50%" valign="top">
+
+### 👨‍💻 Portfolio
+*Central hub showing projects, skills and engineering depth.*
+
+**Problem:** Recruiters need quick visibility into real systems and technical capabilities.
+
+**Solution:** Portfolio presenting deployed products and technical expertise.
+
+**Stack:** Next.js · React · Vercel
+
+<br>
+
+<a href="https://github.com/tejas-bhise/tejas-bhise">
+<img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/>
+</a>
+
+<a href="https://tejas-bhise.vercel.app/">
+<img src="https://img.shields.io/badge/Live-000000?style=for-the-badge&logo=vercel&logoColor=white"/>
+</a>
+
+</td>
+
+</tr>
+
+</table>
 
 ---
 
@@ -202,7 +293,6 @@ Japan 🇯🇵  ·  India 🇮🇳  ·  Europe 🇪🇺  ·  USA 🇺🇸  ·  A
 What I'm looking for:
   ✓  Backend / Full-Stack Engineering
   ✓  AI / ML Engineering & Research
-  ✓  Software Engineering (any domain — I adapt fast)
   ✓  Product engineering at startups or research teams
   ✓  Any team solving problems that actually matter
 ```
