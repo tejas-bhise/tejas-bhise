@@ -425,12 +425,27 @@ const Projects = ({ setPage }) => {
                   className={!isAnyCompletedExpanded && idx >= 2 ? "md:col-span-2" : ""}
                 >
                   <Card cardRef={(el) => (projectRefs.current[project.id] = el)} className="h-full flex flex-col">
-                    <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
-                      <img 
-                        src={`/projects/${project.slug}.png`}
-                        alt={`${project.title} preview`}
-                        className="w-full h-auto block"
-                      />
+                    <div className="w-full aspect-[16/9] overflow-hidden rounded-t-2xl border-b border-slate-200">
+                      {project.live ? (
+                        <a
+                          href={project.live}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="block w-full h-full"
+                        >
+                          <img
+                            src={`/projects/${project.slug}.png`}
+                            alt={`${project.title} preview`}
+                            className="w-full h-full object-contain bg-[#0b0f1a]"
+                          />
+                        </a>
+                      ) : (
+                        <img
+                          src={`/projects/${project.slug}.png`}
+                          alt={`${project.title} preview`}
+                          className="w-full h-full object-contain bg-[#0b0f1a]"
+                        />
+                      )}
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
 
@@ -514,12 +529,27 @@ const Projects = ({ setPage }) => {
             <AnimatedSection className="mb-20">
               <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
                 <Card cardRef={(el) => (projectRefs.current[fedShieldProject.id] = el)}>
-                  <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
-                    <img 
-                      src={`/projects/${fedShieldProject.slug}.png`}
-                      alt={`${fedShieldProject.title} preview`}
-                      className="w-full h-auto block"
-                    />
+                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-2xl border-b border-slate-200">
+                    {fedShieldProject.live ? (
+                      <a
+                        href={fedShieldProject.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src={`/projects/${fedShieldProject.slug}.png`}
+                          alt={`${fedShieldProject.title} preview`}
+                          className="w-full h-full object-contain bg-[#0b0f1a]"
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={`/projects/${fedShieldProject.slug}.png`}
+                        alt={`${fedShieldProject.title} preview`}
+                        className="w-full h-full object-contain bg-[#0b0f1a]"
+                      />
+                    )}
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
 
@@ -587,12 +617,27 @@ const Projects = ({ setPage }) => {
 
               <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
                 <Card cardRef={(el) => (projectRefs.current[futureProject.id] = el)} className="flex flex-col">
-                  <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
-                    <img 
-                      src={`/projects/${futureProject.slug}.png`}
-                      alt={`${futureProject.title} preview`}
-                      className="w-full h-auto block"
-                    />
+                  <div className="w-full aspect-[16/9] overflow-hidden rounded-t-2xl border-b border-slate-200">
+                    {futureProject.live ? (
+                      <a
+                        href={futureProject.live}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block w-full h-full"
+                      >
+                        <img
+                          src={`/projects/${futureProject.slug}.png`}
+                          alt={`${futureProject.title} preview`}
+                          className="w-full h-full object-contain bg-[#0b0f1a]"
+                        />
+                      </a>
+                    ) : (
+                      <img
+                        src={`/projects/${futureProject.slug}.png`}
+                        alt={`${futureProject.title} preview`}
+                        className="w-full h-full object-contain bg-[#0b0f1a]"
+                      />
+                    )}
                   </div>
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-center gap-3 mb-3">
