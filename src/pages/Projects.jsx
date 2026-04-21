@@ -5,7 +5,6 @@ import {
   ChevronUp,
   ExternalLink,
   Calendar,
-  Users,
   Award,
   Zap,
   Target,
@@ -36,9 +35,10 @@ const fadeInUp = {
 };
 
 // Main white card — light black border always visible
-const Card = ({ children, className = "" }) => (
+const Card = ({ children, className = "", cardRef }) => (
   <div
-    className={`rounded-2xl bg-[#F8FAFC] border border-slate-300 overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.12)] transition-all duration-300 hover:border-slate-400 hover:shadow-[0_8px_32px_rgba(79,70,229,0.14)] ${className}`}
+    ref={cardRef}
+    className={`rounded-2xl bg-gradient-to-b from-slate-100 via-slate-50 to-white border border-slate-300 overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.12)] transition-all duration-300 hover:border-slate-400 hover:shadow-[0_8px_32px_rgba(79,70,229,0.14)] ${className}`}
   >
     {children}
   </div>
@@ -59,7 +59,7 @@ const InnerBlock = ({ children, theme = "neutral", className = "" }) => {
     teal:    "bg-teal-100 border-teal-300",
   };
   return (
-    <div className={`${themes[theme]} rounded-xl p-5 border ${className}`}>
+    <div className={`${themes[theme]} rounded-xl p-5 border ${className}`} >
       {children}
     </div>
   );
@@ -95,133 +95,282 @@ const TechPill = ({ tech }) => (
   </span>
 );
 
+const ProjectExpandedContent = ({ project }) => (
+  <div className="px-6 pb-6 border-t border-slate-200 pt-5 space-y-5">
+    {/* Problem / Solution */}
+    <div className="grid md:grid-cols-2 gap-3">
+      <InnerBlock theme="orange">
+        <div className="flex items-center gap-2 mb-2">
+          <Target className="w-3.5 h-3.5 text-orange-500" />
+          <h4 className="text-xs font-bold text-orange-600 uppercase tracking-wider">The Problem</h4>
+        </div>
+        <p className="text-slate-700 text-sm leading-relaxed">{project.problem}</p>
+      </InnerBlock>
+      <InnerBlock theme="emerald">
+        <div className="flex items-center gap-2 mb-2">
+          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+          <h4 className="text-xs font-bold text-emerald-700 uppercase tracking-wider">The Solution</h4>
+        </div>
+        <p className="text-slate-700 text-sm leading-relaxed">{project.solution}</p>
+      </InnerBlock>
+    </div>
+
+    {/* Key Challenges */}
+    <InnerBlock theme="purple">
+      <div className="flex items-center gap-2 mb-3">
+        <Zap className="w-3.5 h-3.5 text-purple-600" />
+        <h4 className="text-xs font-bold text-purple-700 uppercase tracking-wider">Key Challenges</h4>
+      </div>
+      <div className="space-y-2">
+        {project.keyChallenges?.map((challenge, i) => (
+          <SubItem key={i} className="flex items-start gap-2">
+            <span className="text-purple-500 shrink-0 mt-0.5">•</span>
+            <span>{challenge}</span>
+          </SubItem>
+        ))}
+      </div>
+    </InnerBlock>
+
+    {/* Pipeline */}
+    <InnerBlock theme="blue">
+      <div className="flex items-center gap-2 mb-3">
+        <GitBranch className="w-3.5 h-3.5 text-blue-600" />
+        <h4 className="text-xs font-bold text-blue-700 uppercase tracking-wider">Pipeline</h4>
+      </div>
+      <SubItem className="flex items-start gap-2">
+        <span className="text-blue-500 shrink-0 mt-0.5">•</span>
+        <span>{project.pipeline}</span>
+      </SubItem>
+    </InnerBlock>
+
+    {/* Implementation Highlights */}
+    <InnerBlock theme="violet">
+      <div className="flex items-center gap-2 mb-3">
+        <Code2 className="w-3.5 h-3.5 text-violet-600" />
+        <h4 className="text-xs font-bold text-violet-700 uppercase tracking-wider">Implementation Highlights</h4>
+      </div>
+      <div className="grid md:grid-cols-2 gap-2">
+        {project.implementationHighlights?.map((highlight, i) => (
+          <SubItem key={i} className="flex flex-col gap-1">
+            <span className="font-bold text-slate-800">{highlight.title}</span>
+            <span className="text-slate-600">{highlight.description}</span>
+          </SubItem>
+        ))}
+      </div>
+    </InnerBlock>
+
+    {/* Results */}
+    <InnerBlock theme="teal">
+      <div className="flex items-center gap-2 mb-3">
+        <BarChart3 className="w-3.5 h-3.5 text-teal-600" />
+        <h4 className="text-xs font-bold text-teal-700 uppercase tracking-wider">Key Results</h4>
+      </div>
+      <div className="space-y-2">
+        {project.results?.map((result, i) => (
+          <SubItem key={i} className="flex items-start gap-2">
+            <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0 mt-0.5" />
+            <span>{result}</span>
+          </SubItem>
+        ))}
+      </div>
+    </InnerBlock>
+
+    {/* Status (Footer Row) */}
+    {project.status && (
+      <div className="pt-3 border-t border-slate-200 flex flex-wrap gap-5 text-xs">
+        <div className="flex items-center gap-2">
+          <div className={`w-1.5 h-1.5 rounded-full ${project.status === 'In Progress' ? 'bg-blue-500' : 'bg-emerald-500'}`} />
+          <span className="text-slate-500">Status: <span className={`${project.status === 'In Progress' ? 'text-blue-600' : 'text-emerald-600'} font-semibold`}>{project.status}</span></span>
+        </div>
+      </div>
+    )}
+  </div>
+);
+
 const Projects = ({ setPage }) => {
   const [expandedProject, setExpandedProject] = useState(null);
-  const toggleProject = (id) =>
-    setExpandedProject(expandedProject === id ? null : id);
+  
+  // Refs for scrolling
+  const projectRefs = useRef({});
+
+  const toggleProject = (id) => {
+    const el = projectRefs.current[id];
+
+    if (!el) {
+      setExpandedProject(id === expandedProject ? null : id);
+      return;
+    }
+
+    const y = el.getBoundingClientRect().top + window.scrollY;
+
+    setExpandedProject(id === expandedProject ? null : id);
+
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: y,
+        behavior: "instant"
+      });
+    });
+  };
 
   const completedProjects = [
     {
       id: 1,
-      title: "ClarifAiSQL",
+      title: "ClarifaiSQL",
+      slug: "clarifaisql",
       type: "Personal Project • Self-Developed",
-      tagline:
-        "Enabling non-technical users to query databases using plain English instead of SQL.",
-      technologies: ["Python", "FastAPI", "Google Gemini API", "SQL", "JavaScript", "React"],
+      tagline: "Convert natural language questions into SQL queries with explanations using schema-aware reasoning and safe execution.",
+      technologies: ["Python", "FastAPI", "Gemini API", "SQL", "React", "JavaScript"],
       github: "https://github.com/tejas-bhise/ClarifaiSQL",
       githubPrivate: false,
       live: "https://clarifaisql.vercel.app",
       status: "Deployed & Maintained",
       gradient: "from-cyan-500 to-blue-500",
-      problem:
-        "Non-technical users struggle to access database information because writing SQL queries requires technical expertise.",
-      solution:
-        "Developed a web application that converts natural language into SQL, displays the generated query with AI-powered explanation, and returns instant results.",
-      myRole: [
-        "Designed and developed the full-stack application from scratch.",
-        "Designed RESTful APIs and handled backend logic using FastAPI.",
-        "Integrated Google Gemini API for natural language to SQL conversion.",
-        "Implemented CSV upload and automatic database/table creation.",
-        "Deployed frontend on Vercel and backend on Render.",
+      problem: "Non-technical users and beginners struggle with SQL because extracting insights from structured databases requires understanding schemas and query logic, while most resources lack sufficient hands-on practice to build real proficiency.",
+      solution: "Developed an AI-powered platform that converts natural language into SQL queries with explanations and results, using an in-memory SQLite database that automatically deletes session data to ensure strong user privacy.",
+      keyChallenges: [
+        "Handling unseen schemas without predefined table structures",
+        "Preventing invalid or unsafe SQL generation from LLM responses",
+        "Ensuring consistent query accuracy across different dataset formats"
       ],
-      technicalChallenge:
-        "Implemented dynamic schema extraction from uploaded CSV files to generate accurate SQL queries.",
-      impact: "Used for demonstrations and peer testing.",
-      features: [
-        "Natural language to SQL query conversion.",
-        "CSV upload with automatic database creation.",
-        "AI-powered query explanations.",
-        "Real-time query execution and results display.",
-        "User-friendly interface for non-technical users.",
-        "Drag-and-drop file upload functionality.",
+      pipeline: "CSV upload → schema extraction → prompt structuring → Gemini reasoning → SQL validation → query execution → tabular output → explanation generation",
+      implementationHighlights: [
+        { title: "Schema-aware prompt engineering", description: "Extracted table schema dynamically from uploaded CSV files and injected structured metadata into LLM prompts to improve SQL accuracy without hardcoding relationships." },
+        { title: "Safe SQL execution layer", description: "Implemented validation logic restricting unsafe operations (DROP, DELETE, ALTER), ensuring only read-safe queries are executed." },
+        { title: "Dynamic database creation", description: "Converted CSV files into in-memory SQL tables, enabling instant querying without manual database configuration." },
+        { title: "LLM-generated explanations", description: "Generated natural language explanations of SQL logic to improve transparency and usability for non-technical users." }
+      ],
+      results: [
+        "Achieved reliable query accuracy across varied datasets using schema-aware prompting.",
+        "Reduced manual effort required to write SQL queries through natural language interaction.",
+        "Enabled users to dynamically learn, experiment, and practice SQL directly on datasets through real-time query generation."
       ],
     },
     {
       id: 2,
       title: "Saarthi",
+      slug: "saarthi",
       type: "Personal Project • Self-Developed",
-      tagline:
-        "Expanding access to quality learning through a 24/7, real-time 3D AI tutor for students who cannot afford private coaching.",
-      technologies: ["React", "Three.js", "FastAPI", "WebSocket", "Redis", "PostgreSQL", "Google Gemini API", "STT/TTS services"],
+      tagline: "Real-time AI tutor with voice interaction, persistent memory, and 3D avatar delivering step-by-step doubt solving 24/7.",
+      technologies: ["React", "Three.js", "FastAPI", "WebSocket", "WebRTC", "Redis", "PostgreSQL", "Gemini API", "STT/TTS"],
       github: null,
       githubPrivate: true,
       live: "https://saarthi-ai-iota.vercel.app",
       status: "Deployed • Production-ready backend",
       gradient: "from-purple-500 to-pink-500",
-      problem:
-        "Many school and college students cannot afford private coaching, and during self-study they often get stuck on doubts with nobody to ask. This leads to slow progress, weak fundamentals, and loss of confidence over time.",
-      solution:
-        "Saarthi is a real-time AI tutoring platform where students interact with a 3D virtual tutor available 24/7. The system uses WebSockets for low-latency conversations, Redis for session memory, PostgreSQL for persistent history, and a structured LLM pipeline to deliver clear, step-by-step explanations through both voice and text.",
-      myRole: [
-        "Designed the end-to-end architecture for the real-time AI tutoring platform.",
-        "Built FastAPI backend services with WebSocket endpoints, Redis session store, and PostgreSQL persistence.",
-        "Engineered a structured prompt workflow around Google Gemini API for academic Q&A.",
-        "Implemented the full voice pipeline: STT → prompt structuring → Gemini → TTS → 3D avatar lip sync.",
-        "Developed the React + Three.js frontend with interactive 3D tutor and chat interface.",
-        "Created analytics views to track sessions and learning progress.",
+      problem: "Students studying independently often lack immediate guidance when doubts arise, leading to learning gaps, slower progress, and reduced confidence due to limited access to affordable, on-demand tutoring.",
+      solution: "Developed a real-time AI tutoring platform where students interact with a 3D virtual tutor via voice or text, receiving step-by-step explanations with persistent memory for continuous, personalized learning support available 24/7.",
+      keyChallenges: [
+        "Synchronizing voice input, LLM response, and avatar animation in real-time",
+        "Maintaining context consistency across WebSocket sessions and memory stores",
+        "Reducing response delay while preserving structured explanations"
       ],
-      technicalChallenge:
-        "Synchronizing streaming voice input, LLM responses, and 3D avatar lip-sync animations over WebSocket, while keeping conversation context consistent across Redis and PostgreSQL without blocking real-time UX.",
-      impact:
-        "Demonstrates ability to design and ship a production-style AI system combining LLM workflows, real-time communication, stateful backends, and 3D UX. Full walkthrough available on request.",
-      features: [
-        "Real-time tutoring sessions over WebSockets with 24/7 access.",
-        "Redis-backed session memory for context-aware conversations.",
-        "PostgreSQL storage for session logs and analytics.",
-        "Full voice pipeline: STT, Gemini reasoning, TTS output.",
-        "3D tutor avatar with lip-sync animations tied to audio.",
-        "Dual modes: voice chat and text chat.",
-        "Analytics layer for session counts and learning patterns.",
+      pipeline: "User speech/text → STT → structured prompt → Gemini reasoning → TTS generation → avatar lip-sync → WebSocket streaming → Redis memory → PostgreSQL persistence",
+      implementationHighlights: [
+        { title: "Real-time communication architecture", description: "Implemented WebSocket-based bidirectional communication enabling continuous low-latency conversation without traditional request-response delays." },
+        { title: "Structured LLM prompt workflow", description: "Designed prompt templates optimized for educational explanations to improve clarity and step-by-step reasoning." },
+        { title: "Voice interaction pipeline", description: "Integrated speech-to-text and text-to-speech services enabling natural conversational learning." },
+        { title: "3D tutor interface", description: "Built a Three.js avatar synchronized with generated speech to improve engagement and realism." }
+      ],
+      results: [
+        "Enables students to receive instant doubt resolution anytime, improving learning continuity during self-study.",
+        "Supports better concept understanding through structured step-by-step explanations tailored to conversation context.",
+        "Increases engagement and confidence by providing interactive, personalized tutoring accessible 24/7."
+      ],
+    },
+    {
+      id: 3,
+      title: "Operis",
+      slug: "operis",
+      type: "Personal Project • Self-Developed",
+      tagline: "AI decision intelligence system that converts scattered operational signals into clear, prioritized insights on what needs attention.",
+      technologies: ["Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "Scheduler", "LLM APIs", "REST APIs"],
+      github: null,
+      githubPrivate: true,
+      live: "https://operis-ai.vercel.app",
+      status: "Completed",
+      gradient: "from-indigo-500 to-blue-600",
+      problem: "Operational signals are fragmented across tools like Jira, GitHub, Slack, email, and calendars, making it difficult to quickly understand what requires attention, what changed, and where risks are emerging.",
+      solution: "Developed an AI-powered system that continuously consolidates multi-source signals into structured, prioritized insights using scoring logic and LLM summarization, enabling a clear, real-time view of what needs attention.",
+      keyChallenges: [
+        "Designing generalized scoring logic adaptable to different signal types",
+        "Structuring unstructured operational activity into measurable decision indicators",
+        "Ensuring interpretable AI-generated summaries for quick situational understanding"
+      ],
+      pipeline: "Signal ingestion → normalization → scoring engine → priority ranking → LLM summarization → structured decision insights → monitoring loop",
+      implementationHighlights: [
+        { title: "Signal ingestion architecture", description: "Designed modular pipelines to aggregate operational signals from multiple tools, enabling extensibility across integrations." },
+        { title: "Decision scoring engine", description: "Built rule-based scoring logic to identify meaningful changes and prioritize risks requiring attention." },
+        { title: "LLM insight generation", description: "Converted structured signals into concise summaries highlighting key updates and emerging risks." },
+        { title: "Scheduled monitoring cycle", description: "Implemented periodic evaluation to continuously track system state and detect meaningful changes." }
+      ],
+      results: [
+        "Helps founders and managers make faster decisions by highlighting only important signals and reducing noise.",
+        "Reduces time spent manually checking multiple tools through a single structured insight view.",
+        "Improves productivity by clearly showing risks, priorities, and changes that need attention."
       ],
     },
   ];
 
-  const academicProject = {
-    id: 3,
+  const fedShieldProject = {
+    id: 4,
     title: "FedShield",
-    subtitle: "Enhancing Security in Federated Learning through Anomaly-Based Backdoor Detection",
+    slug: "fedshield",
+    subtitle: "Secure Federated Learning using dual-signal anomaly detection",
     type: "Final Year Project",
-    tagline:
-      "Detecting and preventing stealthy backdoor attacks in federated learning systems to ensure secure and trustworthy collaborative AI.",
-    technologies: ["Python", "Federated Learning (Flower)", "PyTorch/TensorFlow", "CNN", "Anomaly Detection", "CIFAR-10", "MNIST", "Streamlit"],
-    status: "In Development",
-    supervisor: "Prof. Rahul Patil",
-    expectedCompletion: "2026",
-    recognition: "Novel functional-analysis-based defense mechanism proposed as core contribution.",
+    tagline: "Secure federated learning framework using dual-signal anomaly detection to identify and filter malicious client updates before aggregation.",
+    technologies: ["Python", "PyTorch", "Flower", "CNN", "CIFAR-10", "SVHN (OOD dataset)", "NumPy", "Streamlit"],
+    status: "Completed",
     gradient: "from-orange-500 to-red-500",
-    problem:
-      "Federated learning models can be secretly poisoned with hidden backdoors while appearing accurate, making them unsafe and unreliable.",
-    solution:
-      "Designing and implementing a novel functional-analysis-based defense mechanism to detect anomalous model updates and prevent backdoor attacks in federated learning environments.",
-    myRole: [
-      "Contributing to backend implementation and system architecture.",
-      "Designing anomaly-based Guardian defense mechanism.",
-      "Implementing backdoor attack (BadNets) for experimental evaluation.",
-      "Developing experimental pipeline for performance analysis.",
+    problem: "Federated learning systems are vulnerable to stealthy backdoor attacks where malicious clients manipulate model updates while appearing statistically normal, making detection difficult using standard aggregation methods.",
+    solution: "Developed a dual-signal anomaly detection framework that analyzes gradient patterns and behavioral deviations to identify and filter adversarial client updates before secure model aggregation.",
+    keyChallenges: [
+      "Detecting malicious updates that closely resemble normal gradient distributions",
+      "Preserving global model accuracy while filtering adversarial clients",
+      "Validating robustness across IID and OOD dataset distributions"
     ],
-    progress: [
-      "Federated learning baseline system designed.",
-      "Anomaly-based Guardian defense design finalized.",
-      "Backdoor attack (BadNets) implementation in progress.",
-      "Experimental evaluation pipeline defined.",
+    pipeline: "Client model updates → gradient signal extraction → behavioral shift analysis → anomaly scoring → malicious client filtering → secure aggregation",
+    implementationHighlights: [
+      { title: "Dual-signal anomaly detection design", description: "Analyzed both gradient-level deviations and behavioral update patterns to improve detection reliability against stealth backdoor attacks." },
+      { title: "Attack simulation framework", description: "Implemented BadNets, label flipping, and model replacement attacks to evaluate defense performance under realistic adversarial conditions." },
+      { title: "OOD robustness validation", description: "Used SVHN dataset as an out-of-distribution proxy to test defense stability beyond training distribution." },
+      { title: "Federated training pipeline", description: "Built Flower-based federated environment with multiple clients for controlled experimentation." }
+    ],
+    results: [
+      "Achieved 69% main task accuracy while maintaining model reliability under adversarial conditions.",
+      "Reduced backdoor success rate to 3–4%, limiting effectiveness of malicious updates.",
+      "Detected 100% malicious clients with zero false positives, ensuring secure aggregation."
     ],
   };
 
   const futureProject = {
-    id: 4,
+    id: 5,
     title: "Prarambh AI",
+    slug: "prarambh",
     subtitle: "Startup ideas to blueprint in 60 sec",
-    tagline:
-      "Helping founders convert raw startup ideas into validated, execution-ready blueprints within minutes.",
-    technologies: ["Python", "FastAPI", "LLM APIs", "JavaScript", "React", "Dashboard UI", "Database TBD"],
+    tagline: "AI platform that transforms raw startup ideas into structured execution blueprints with validation steps, feature planning, and actionable development guidance.",
+    technologies: ["Python", "FastAPI", "LLM APIs", "React", "JavaScript", "Dashboard UI"],
     status: "In Progress",
     gradient: "from-blue-500 to-cyan-500",
-    purpose:
-      "To address the zero-to-one gap where founders fail due to lack of idea validation, strategy, and guidance before building.",
-    completed:
-      "Frontend dashboard UI designed and implemented with responsive layout and structured workflows.",
-    pending:
-      "Backend API development, LLM integration, database design, and deployment.",
+    problem: "Early-stage ideas often lack structured validation and clear execution direction, making it difficult to systematically evaluate feasibility, define features, and plan development steps.",
+    solution: "Building an AI-assisted platform that converts idea inputs into structured execution blueprints including validation steps, feature breakdowns, and guided development direction.",
+    keyChallenges: [
+      "Structuring unstructured idea inputs into actionable outputs",
+      "Designing reusable workflow templates for idea validation",
+      "Ensuring practical outputs beyond generic AI responses"
+    ],
+    pipeline: "Idea input → context structuring → LLM reasoning → blueprint generation → structured output sections → dashboard visualization",
+    implementationHighlights: [
+      { title: "Idea structuring workflow", description: "Designed structured input format to capture startup context and improve relevance of generated outputs." },
+      { title: "Blueprint generation logic", description: "LLM produces structured sections covering validation strategy, feature planning, and execution steps." },
+      { title: "Dashboard interface design", description: "Built responsive UI to display structured blueprint outputs in an organized format." },
+      { title: "Modular workflow architecture", description: "System designed to support multiple idea categories and extensible planning workflows." }
+    ],
+    results: [
+      "Helps users quickly convert raw ideas into structured, actionable execution plans.",
+      "Reduces ambiguity in early-stage planning through clear validation and feature breakdown guidance.",
+      "Enables faster transition from idea stage to implementation-ready direction."
+    ],
     live: "https://pararambh-frontend.vercel.app",
     github: "https://github.com/tejas-bhise/pararambh-frontend",
     expectedCompletion: "2026",
@@ -229,12 +378,12 @@ const Projects = ({ setPage }) => {
 
   const techStackGrid = [
     { category: "Languages", icon: <Code2 className="w-4 h-4 text-white" />, color: "from-blue-500 to-blue-700", items: ["Python", "JavaScript", "SQL"] },
-    { category: "Backend", icon: <Server className="w-4 h-4 text-white" />, color: "from-purple-500 to-purple-700", items: ["FastAPI", "RESTful APIs"] },
+    { category: "Backend", icon: <Server className="w-4 h-4 text-white" />, color: "from-purple-500 to-purple-700", items: ["FastAPI", "RESTful APIs", "SQLAlchemy", "WebSocket"] },
     { category: "Frontend", icon: <Monitor className="w-4 h-4 text-white" />, color: "from-cyan-500 to-cyan-700", items: ["React", "Three.js", "Streamlit"] },
-    { category: "AI & LLMs", icon: <Brain className="w-4 h-4 text-white" />, color: "from-green-500 to-green-700", items: ["Google Gemini API", "STT/TTS APIs"] },
-    { category: "Machine Learning", icon: <BarChart3 className="w-4 h-4 text-white" />, color: "from-indigo-500 to-indigo-700", items: ["PyTorch", "TensorFlow", "CNN", "Anomaly Detection"] },
+    { category: "AI & LLMs", icon: <Brain className="w-4 h-4 text-white" />, color: "from-green-500 to-green-700", items: ["Google Gemini API", "Prompt Engineering", "STT/TTS APIs"] },
+    { category: "Machine Learning", icon: <BarChart3 className="w-4 h-4 text-white" />, color: "from-indigo-500 to-indigo-700", items: ["PyTorch", "TensorFlow", "CNN", "NumPy", "Anomaly Detection"] },
     { category: "Federated Learning", icon: <Network className="w-4 h-4 text-white" />, color: "from-pink-500 to-pink-700", items: ["Flower Framework"] },
-    { category: "Databases", icon: <Database className="w-4 h-4 text-white" />, color: "from-orange-500 to-orange-700", items: ["PostgreSQL", "Redis", "SQLite (in-memory)"] },
+    { category: "Databases", icon: <Database className="w-4 h-4 text-white" />, color: "from-orange-500 to-orange-700", items: ["PostgreSQL", "Redis", "SQLite"] },
     { category: "Deployment", icon: <Cloud className="w-4 h-4 text-white" />, color: "from-emerald-500 to-emerald-700", items: ["Vercel", "Render"] },
     { category: "Version Control", icon: <GitBranch className="w-4 h-4 text-white" />, color: "from-slate-500 to-slate-700", items: ["Git", "GitHub"] },
   ];
@@ -273,8 +422,16 @@ const Projects = ({ setPage }) => {
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -4 }}
                   layout
+                  className={!isAnyCompletedExpanded && idx >= 2 ? "md:col-span-2" : ""}
                 >
-                  <Card className="h-full flex flex-col">
+                  <Card cardRef={(el) => (projectRefs.current[project.id] = el)} className="h-full flex flex-col">
+                    <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
+                      <img 
+                        src={`/projects/${project.slug}.png`}
+                        alt={`${project.title} preview`}
+                        className="w-full h-auto block"
+                      />
+                    </div>
                     <div className="p-6 flex-1 flex flex-col">
 
                       <div className="flex justify-between items-start mb-4 gap-3">
@@ -303,10 +460,12 @@ const Projects = ({ setPage }) => {
 
                       <div className="mt-auto space-y-2">
                         <div className="flex gap-2 flex-wrap">
-                          <a href={project.live} target="_blank" rel="noopener noreferrer"
-                            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                            <ExternalLink size={12} /> Live Demo
-                          </a>
+                          {project.live && (
+                            <a href={project.live} target="_blank" rel="noopener noreferrer"
+                              className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                              <ExternalLink size={12} /> Live Demo
+                            </a>
+                          )}
                           {project.githubPrivate ? (
                             <div className="relative group/tooltip">
                               <button disabled className="flex items-center gap-1.5 px-4 py-2 bg-slate-100 text-slate-400 rounded-lg text-xs font-semibold border border-slate-200 cursor-not-allowed">
@@ -342,77 +501,7 @@ const Projects = ({ setPage }) => {
                           transition={{ duration: 0.3 }}
                           className="overflow-hidden"
                         >
-                          <div className="px-6 pb-6 border-t border-slate-200 pt-5 space-y-4">
-
-                            {/* Problem / Solution */}
-                            <div className="grid md:grid-cols-2 gap-3">
-                              <InnerBlock theme="orange">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <Target className="w-3.5 h-3.5 text-orange-500" />
-                                  <h4 className="text-xs font-bold text-orange-600 uppercase tracking-wider">The Problem</h4>
-                                </div>
-                                <p className="text-slate-700 text-sm leading-relaxed">{project.problem}</p>
-                              </InnerBlock>
-                              <InnerBlock theme="emerald">
-                                <div className="flex items-center gap-2 mb-2">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                                  <h4 className="text-xs font-bold text-emerald-700 uppercase tracking-wider">The Solution</h4>
-                                </div>
-                                <p className="text-slate-700 text-sm leading-relaxed">{project.solution}</p>
-                              </InnerBlock>
-                            </div>
-
-                            {/* Role — blue block, white sub-items */}
-                            <InnerBlock theme="blue">
-                              <div className="flex items-center gap-2 mb-3">
-                                <Users className="w-3.5 h-3.5 text-blue-600" />
-                                <h4 className="text-xs font-bold text-blue-700 uppercase tracking-wider">My Role & Contributions</h4>
-                              </div>
-                              <div className="grid md:grid-cols-2 gap-2">
-                                {project.myRole.map((role, i) => (
-                                  <SubItem key={i}>{role}</SubItem>
-                                ))}
-                              </div>
-                            </InnerBlock>
-
-                            {/* Technical Challenge */}
-                            <InnerBlock theme="purple">
-                              <div className="flex items-center gap-2 mb-2">
-                                <Zap className="w-3.5 h-3.5 text-purple-600" />
-                                <h4 className="text-xs font-bold text-purple-700 uppercase tracking-wider">Key Technical Challenge</h4>
-                              </div>
-                              <p className="text-sm text-slate-700 leading-relaxed">{project.technicalChallenge}</p>
-                            </InnerBlock>
-
-                            {/* Features — cyan block, white sub-items */}
-                            <InnerBlock theme="cyan">
-                              <div className="flex items-center gap-2 mb-3">
-                                <TrendingUp className="w-3.5 h-3.5 text-cyan-600" />
-                                <h4 className="text-xs font-bold text-cyan-700 uppercase tracking-wider">Key Features</h4>
-                              </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                {project.features.map((feature, i) => (
-                                  <SubItem key={i} className="flex items-start gap-2">
-                                    <span className="text-cyan-500 shrink-0 mt-0.5">•</span>
-                                    <span>{feature}</span>
-                                  </SubItem>
-                                ))}
-                              </div>
-                            </InnerBlock>
-
-                            {/* Status / Impact */}
-                            <div className="pt-3 border-t border-slate-200 flex flex-wrap gap-5 text-xs">
-                              <div className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                                <span className="text-slate-500">Status: <span className="text-emerald-600 font-semibold">{project.status}</span></span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <Award className="w-3.5 h-3.5 text-blue-500" />
-                                <span className="text-slate-500">Impact: <span className="text-slate-700">{project.impact}</span></span>
-                              </div>
-                            </div>
-
-                          </div>
+                          <ProjectExpandedContent project={project} />
                         </motion.div>
                       )}
                     </AnimatePresence>
@@ -421,78 +510,57 @@ const Projects = ({ setPage }) => {
               ))}
             </div>
 
-            {/* ── ACADEMIC PROJECT ── */}
+            {/* ── FEDSHIELD PROJECT ── */}
             <AnimatedSection className="mb-20">
-              <div className="flex items-center gap-3 mb-5">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-orange-600 to-red-600 flex items-center justify-center">
-                  <Award className="w-4 h-4 text-white" />
-                </div>
-                <h2 className="text-xl font-bold text-white">Academic Project</h2>
-              </div>
-
               <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Card>
-                  <div className="p-6">
+                <Card cardRef={(el) => (projectRefs.current[fedShieldProject.id] = el)}>
+                  <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
+                    <img 
+                      src={`/projects/${fedShieldProject.slug}.png`}
+                      alt={`${fedShieldProject.title} preview`}
+                      className="w-full h-auto block"
+                    />
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
 
                     <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
                       <div className="flex items-center gap-3">
-                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${academicProject.gradient} flex items-center justify-center shrink-0`}>
+                        <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${fedShieldProject.gradient} flex items-center justify-center shrink-0`}>
                           <Zap className="w-4 h-4 text-white" />
                         </div>
                         <div>
-                          <h3 className="text-base font-bold text-slate-900 leading-tight">{academicProject.title}</h3>
-                          <span className="inline-block mt-1 bg-orange-100 text-orange-600 text-xs font-semibold px-2.5 py-0.5 rounded-full border border-orange-200">
-                            In Development
-                          </span>
+                          <h3 className="text-base font-bold text-slate-900 leading-tight">{fedShieldProject.title}</h3>
                         </div>
                       </div>
                     </div>
 
-                    <p className="text-sm font-semibold text-orange-600 mb-1">{academicProject.subtitle}</p>
-                    <p className="text-xs text-slate-500 mb-3">{academicProject.type}</p>
-                    <p className="text-slate-600 text-sm leading-relaxed mb-4">{academicProject.tagline}</p>
+                    <p className="text-sm font-semibold text-orange-600 mb-1">{fedShieldProject.subtitle}</p>
+                    <p className="text-xs text-slate-500 mb-3">{fedShieldProject.type}</p>
+                    <p className="text-slate-600 text-sm leading-relaxed mb-4">{fedShieldProject.tagline}</p>
 
                     {/* Tech pills — neutral */}
                     <div className="flex flex-wrap gap-1.5 mb-4">
-                      {academicProject.technologies.map((tech) => (
+                      {fedShieldProject.technologies.map((tech) => (
                         <TechPill key={tech} tech={tech} />
                       ))}
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-5 mb-4 text-xs text-slate-600">
-                      <div className="flex items-center gap-1.5">
-                        <Users size={12} className="text-indigo-500" />
-                        <span>{academicProject.supervisor}</span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <Calendar size={12} className="text-emerald-600" />
-                        <span>Expected {academicProject.expectedCompletion}</span>
-                      </div>
-                    </div>
-
-                    <InnerBlock theme="amber" className="mb-4">
-                      <div className="flex items-start gap-2.5">
-                        <Award className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
-                        <p className="text-sm text-slate-700">{academicProject.recognition}</p>
-                      </div>
-                    </InnerBlock>
-
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between mt-6">
                       <div className="text-xs flex items-center gap-2">
-                        <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                        <span className="text-slate-500">Status: <span className="text-orange-500 font-semibold">{academicProject.status}</span></span>
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        <span className="text-slate-500">Status: <span className="text-emerald-600 font-semibold">{fedShieldProject.status}</span></span>
                       </div>
                       <button
-                        onClick={() => toggleProject(academicProject.id)}
+                        onClick={() => toggleProject(fedShieldProject.id)}
                         className="flex items-center gap-1.5 px-3 py-2 text-slate-600 hover:text-slate-900 transition-all text-xs font-semibold rounded-lg border border-slate-300 hover:border-slate-400 hover:bg-slate-100 cursor-pointer"
                       >
-                        {expandedProject === academicProject.id ? <> Less Details <ChevronUp size={13} /> </> : <> Details <ChevronDown size={13} /> </>}
+                        {expandedProject === fedShieldProject.id ? <> Less Details <ChevronUp size={13} /> </> : <> Details <ChevronDown size={13} /> </>}
                       </button>
                     </div>
                   </div>
 
                   <AnimatePresence>
-                    {expandedProject === academicProject.id && (
+                    {expandedProject === fedShieldProject.id && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
@@ -500,56 +568,7 @@ const Projects = ({ setPage }) => {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="px-6 pb-6 border-t border-slate-200 pt-5 space-y-4">
-
-                          {/* Problem — orange, Solution — emerald */}
-                          <div className="grid md:grid-cols-2 gap-3">
-                            <InnerBlock theme="orange">
-                              <div className="flex items-center gap-2 mb-2">
-                                <Target className="w-3.5 h-3.5 text-orange-500" />
-                                <h4 className="text-xs font-bold text-orange-600 uppercase tracking-wider">The Problem</h4>
-                              </div>
-                              <p className="text-slate-700 text-sm leading-relaxed">{academicProject.problem}</p>
-                            </InnerBlock>
-                            <InnerBlock theme="emerald">
-                              <div className="flex items-center gap-2 mb-2">
-                                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                                <h4 className="text-xs font-bold text-emerald-700 uppercase tracking-wider">The Solution</h4>
-                              </div>
-                              <p className="text-slate-700 text-sm leading-relaxed">{academicProject.solution}</p>
-                            </InnerBlock>
-                          </div>
-
-                          {/* Role — violet (different from orange Problem block) */}
-                          <InnerBlock theme="violet">
-                            <div className="flex items-center gap-2 mb-3">
-                              <Users className="w-3.5 h-3.5 text-violet-600" />
-                              <h4 className="text-xs font-bold text-violet-700 uppercase tracking-wider">My Role & Contributions</h4>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-2">
-                              {academicProject.myRole.map((role, i) => (
-                                <SubItem key={i}>{role}</SubItem>
-                              ))}
-                            </div>
-                          </InnerBlock>
-
-                          {/* Progress — teal (different from all above) */}
-                          <InnerBlock theme="teal">
-                            <div className="flex items-center gap-2 mb-3">
-                              <TrendingUp className="w-3.5 h-3.5 text-teal-600" />
-                              <h4 className="text-xs font-bold text-teal-700 uppercase tracking-wider">Current Progress</h4>
-                            </div>
-                            <div className="grid md:grid-cols-2 gap-2">
-                              {academicProject.progress.map((item, i) => (
-                                <SubItem key={i} className="flex items-start gap-2">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-500 shrink-0 mt-0.5" />
-                                  <span>{item}</span>
-                                </SubItem>
-                              ))}
-                            </div>
-                          </InnerBlock>
-
-                        </div>
+                        <ProjectExpandedContent project={fedShieldProject} />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -567,8 +586,15 @@ const Projects = ({ setPage }) => {
               </div>
 
               <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Card>
-                  <div className="p-6">
+                <Card cardRef={(el) => (projectRefs.current[futureProject.id] = el)} className="flex flex-col">
+                  <div className="w-full overflow-hidden rounded-t-2xl border-b border-slate-200">
+                    <img 
+                      src={`/projects/${futureProject.slug}.png`}
+                      alt={`${futureProject.title} preview`}
+                      className="w-full h-auto block"
+                    />
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-center gap-3 mb-3">
                       <div className={`w-9 h-9 rounded-xl bg-gradient-to-br ${futureProject.gradient} flex items-center justify-center`}>
                         <Zap className="w-4 h-4 text-white" />
@@ -585,52 +611,51 @@ const Projects = ({ setPage }) => {
                     <p className="text-slate-600 text-sm leading-relaxed mb-4">{futureProject.tagline}</p>
 
                     {/* Tech pills — neutral */}
-                    <div className="flex flex-wrap gap-1.5 mb-4">
+                    <div className="flex flex-wrap gap-1.5 mb-5">
                       {futureProject.technologies.map((tech) => (
                         <TechPill key={tech} tech={tech} />
                       ))}
                     </div>
 
-                    <InnerBlock theme="yellow" className="mb-4">
-                      <div className="flex items-center gap-2 mb-2">
-                        <Target className="w-3.5 h-3.5 text-yellow-600" />
-                        <span className="text-xs font-bold text-yellow-700 uppercase tracking-wider">Why I'm Building This</span>
+                    <div className="mt-auto space-y-2">
+                      <div className="flex justify-between items-center flex-wrap gap-3">
+                        <div className="flex gap-2 flex-wrap">
+                          <a href={futureProject.live} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                            <ExternalLink size={12} /> Preview Frontend
+                          </a>
+                          <a href={futureProject.github} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-1.5 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition-colors">
+                            <Github size={12} /> GitHub
+                          </a>
+                        </div>
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500">
+                          <Calendar size={12} className="text-emerald-600" />
+                          <span>Expected {futureProject.expectedCompletion}</span>
+                        </div>
                       </div>
-                      <p className="text-sm text-slate-700 leading-relaxed">{futureProject.purpose}</p>
-                    </InnerBlock>
-
-                    <div className="grid md:grid-cols-2 gap-3 mb-5">
-                      <InnerBlock theme="emerald">
-                        <p className="text-xs font-bold text-emerald-700 mb-2 flex items-center gap-1.5">
-                          <CheckCircle2 size={12} /> Completed
-                        </p>
-                        <p className="text-sm text-slate-700 leading-relaxed">{futureProject.completed}</p>
-                      </InnerBlock>
-                      <InnerBlock theme="amber">
-                        <p className="text-xs font-bold text-amber-600 mb-2 flex items-center gap-1.5">
-                          <TrendingUp size={12} /> Pending
-                        </p>
-                        <p className="text-sm text-slate-700 leading-relaxed">{futureProject.pending}</p>
-                      </InnerBlock>
-                    </div>
-
-                    <div className="flex justify-between items-center flex-wrap gap-3 pt-4 border-t border-slate-200">
-                      <div className="flex gap-2 flex-wrap">
-                        <a href={futureProject.live} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                          <ExternalLink size={12} /> Preview Frontend
-                        </a>
-                        <a href={futureProject.github} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1.5 px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold transition-colors">
-                          <Github size={12} /> GitHub
-                        </a>
-                      </div>
-                      <div className="flex items-center gap-1.5 text-xs text-slate-500">
-                        <Calendar size={12} className="text-emerald-600" />
-                        <span>Expected {futureProject.expectedCompletion}</span>
-                      </div>
+                      <button
+                        onClick={() => toggleProject(futureProject.id)}
+                        className="flex items-center gap-1.5 px-3 py-2 text-slate-600 hover:text-slate-900 transition-all text-xs font-semibold w-full justify-center rounded-lg border border-slate-300 hover:border-slate-400 hover:bg-slate-100 cursor-pointer"
+                      >
+                        {expandedProject === futureProject.id ? <> Less Details <ChevronUp size={13} /> </> : <> Details <ChevronDown size={13} /> </>}
+                      </button>
                     </div>
                   </div>
+
+                  <AnimatePresence>
+                    {expandedProject === futureProject.id && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <ProjectExpandedContent project={futureProject} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </Card>
               </motion.div>
             </AnimatedSection>
