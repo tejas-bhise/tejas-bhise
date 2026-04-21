@@ -20,7 +20,9 @@ import {
   BookOpen,
   Shield,
   Target,
-  Users
+  Users,
+  Globe,
+  Brain
 } from 'lucide-react';
 import { useRef } from 'react';
 import PageWrapper from '../components/PageWrapper';
@@ -72,10 +74,34 @@ const Resume = ({ setPage }) => {
 
 
   const contactInfo = [
-    { icon: Phone, label: '+91-8796872925', href: 'tel:+918796872925', gradient: 'from-green-500 to-emerald-500', bg: 'bg-green-500/10' },
-    { icon: Mail, label: 'tejasbhise1013@gmail.com', href: 'mailto:tejasbhise1013@gmail.com', gradient: 'from-blue-500 to-cyan-500', bg: 'bg-blue-500/10' },
-    { icon: Github, label: 'github.com/tejas-bhise', href: 'https://github.com/tejas-bhise', gradient: 'from-gray-400 to-gray-600', bg: 'bg-gray-500/10' },
-    { icon: Linkedin, label: 'linkedin.com/in/tejas-bhise', href: 'https://www.linkedin.com/in/tejas-bhise', gradient: 'from-indigo-500 to-blue-600', bg: 'bg-indigo-500/10' }
+    {
+      icon: Globe,
+      label: "Portfolio",
+      href: "https://tejas-bhise.vercel.app",
+      gradient: "from-violet-500 to-indigo-600",
+      bg: "bg-violet-500/10"
+    },
+    {
+      icon: Mail,
+      label: "Email",
+      href: "mailto:tejasbhise1013@gmail.com",
+      gradient: "from-blue-500 to-cyan-500",
+      bg: "bg-blue-500/10"
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      href: "https://github.com/tejas-bhise",
+      gradient: "from-slate-500 to-slate-700",
+      bg: "bg-slate-500/10"
+    },
+    {
+      icon: Linkedin,
+      label: "LinkedIn",
+      href: "https://www.linkedin.com/in/tejas-bhise",
+      gradient: "from-indigo-500 to-blue-600",
+      bg: "bg-indigo-500/10"
+    }
   ];
 
 
@@ -205,6 +231,17 @@ const skillCategories = [
         "Developed Next.js 15 frontend with TypeScript and TailwindCSS featuring CSV drag-and-drop, real-time SQL generation, and AI explanations",
         "Engineered FastAPI backend with automated schema extraction from uploaded CSV files and deployed on Vercel (frontend) and Render (backend)"
       ]
+    },
+    {
+      name: "Operis - AI Operational Decision Intelligence",
+      tech: "FastAPI, PostgreSQL, SQLAlchemy, LLM APIs",
+      gradient: "from-indigo-500 to-blue-600",
+      icon: Brain,
+      highlights: [
+        "Built signal aggregation pipeline combining operational data from multiple sources into structured decision insights",
+        "Designed scoring logic to prioritize signals requiring attention using rule-based evaluation cycles",
+        "Integrated LLM summarization layer to convert operational activity into clear executive-level insights"
+      ]
     }
   ];
 
@@ -295,7 +332,7 @@ const skillCategories = [
               </motion.p>
               
               {/* UNIQUE CONTACT CARDS */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 max-w-5xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-14 max-w-xl mx-auto">
                 {contactInfo.map((contact, index) => (
                   <motion.a
                     key={index}
@@ -306,13 +343,17 @@ const skillCategories = [
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     whileHover={{ y: -8, scale: 1.05 }}
                     transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
-                    className={`${contact.bg} backdrop-blur-sm border border-white/10 rounded-xl p-4 hover:border-white/30 transition-all group`}
+                    className={`${contact.bg} backdrop-blur-md border border-white/10 rounded-xl p-3 hover:border-violet-400/40 hover:shadow-lg hover:shadow-violet-500/10 transition-all group`}
                   >
                     <div className="flex items-center gap-3">
                       <div className={`w-11 h-11 rounded-lg bg-gradient-to-br ${contact.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}>
                         <contact.icon className="w-5 h-5 text-white" />
                       </div>
-                      <span className="text-sm text-white font-medium text-left flex-1">{contact.label}</span>
+                      <div className="flex flex-col">
+                        <span className="text-xs text-slate-300 font-medium tracking-wide">
+                          {contact.label}
+                        </span>
+                      </div>
                     </div>
                   </motion.a>
                 ))}
