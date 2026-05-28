@@ -1,3 +1,12 @@
+```gitignore id="s1w8fy"
+# Dependencies
+node_modules
+
+# Production build
+dist
+dist-ssr
+build
+
 # Logs
 logs
 *.log
@@ -7,23 +16,43 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Local config
 *.local
 
-# Editor directories and files
+# Editor files
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
+.idea/
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
 
-# Environment variables
-.env
-.env.local
-.env.production
+# OS files
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Coverage
+coverage
+.nyc_output
+
+# Cache
+.cache
+.parcel-cache
+
+# Temporary files
+tmp
+temp
+
+# Misc
+*.tsbuildinfo
+```

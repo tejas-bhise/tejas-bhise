@@ -59,15 +59,15 @@ const Resume = ({ setPage }) => {
   const handleDownloadResume = () => {
   try {
     const link = document.createElement('a');
-    link.href = '/Tejas_Bhise_AI_Backend_Resume.pdf';
-    link.download = 'Tejas_Bhise_AI_Backend_Resume.pdf';
+    link.href = '/Tejas_Bhise.pdf';
+    link.download = 'Tejas_Bhise.pdf';
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   } catch (error) {
-    window.open('/Tejas_Bhise_AI_Backend_Resume.pdf', '_blank');
+    window.open('/Tejas_Bhise.pdf', '_blank');
   }
 };
 
@@ -241,6 +241,17 @@ const skillCategories = [
         "Built signal aggregation pipeline combining operational data from multiple sources into structured decision insights",
         "Designed scoring logic to prioritize signals requiring attention using rule-based evaluation cycles",
         "Integrated LLM summarization layer to convert operational activity into clear executive-level insights"
+      ]
+    },
+    {
+      name: "FedShield - Federated Learning Security Framework",
+      tech: "Python, PyTorch, Flower, CNN, CIFAR-10, SVHN, Streamlit",
+      gradient: "from-red-500 to-orange-500",
+      icon: Shield,
+      highlights: [
+        "Developed a dual-signal anomaly detection framework combining behavioral shift analysis and layer-wise gradient monitoring to identify malicious clients in federated learning",
+        "Simulated BadNets, label-flipping, and model replacement attacks in a Flower-based federated environment to evaluate robustness under adversarial conditions",
+        "Maintained 69% secure global model accuracy while reducing backdoor attack success rate to 3–4% and achieving 100% malicious client detection with zero false positives"
       ]
     }
   ];
