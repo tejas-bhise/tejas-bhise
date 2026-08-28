@@ -12,7 +12,7 @@
 <br/>
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=3000&pause=1600&color=00FF41&center=true&vCenter=true&width=720&lines=Final+Year+CS+%7C+B.E+Computer+Engineering+%40+NMIET+Pune;3+Deployed+Products+%7C+Real+Systems+%7C+Real+Users;Copyright+Holder+%7C+Hackathon+Finalist+%7C+1000%2B+Mentored;Built+AI+Tutor+%E2%86%92+FedShield+%E2%86%92+NL+to+SQL+Engine;Open+to+opportunities+%E2%80%94+anywhere+in+the+world+%F0%9F%8C%8F" />
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=17&duration=3000&pause=1600&color=00FF41&center=true&vCenter=true&width=720&lines=3+Deployed+Products+%7C+Real+Systems+%7C+Real+Users;Copyright+Registered+%7C+Research+Paper+Published+%7C+Hackathon+Finalist;Built+AI+Tutor+%E2%86%92+FedShield+%E2%86%92+NL-to-SQL+Engine;Open+to+Opportunities+%E2%80%94+Anywhere+in+the+World+%F0%9F%8C%8D" />
 </p>
 
 <p align="center">
@@ -41,12 +41,12 @@
 > NAME        : Tejas Bhise
 > LOCATION    : Pune, Maharashtra, India
 > DEGREE      : B.E Computer Engineering
-> GRAD_YEAR   : 2026
-> PRODUCTS    : 3 deployed, live, real users
-> COPYRIGHT   : Govt. of India — L-133251/2023
-> HACKATHON   : Finalist — AI Agent Engineer
-> MENTORED    : 1000+ students
-> STATUS      : Open to Work 🌏
+> PRODUCTS    : 3 deployed products | Real users
+> IP          : Copyright Registered — Govt. of India
+> RESEARCH    : Published Research Paper
+> HACKATHON   : AI Agent Engineer — Finalist
+> MENTORSHIP  : 1000+ Students Mentored
+
 ```
 
 ---
