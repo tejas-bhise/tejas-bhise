@@ -7,9 +7,8 @@
 
 
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=tejas-bhise&style=for-the-badge&color=555555&label=PROFILE+VIEWS&v=20261018b" alt="Profile Views" />
+  <img src="https://hits.sh/github.com/tejas-bhise.svg?style=for-the-badge&label=Profile%20Views&extraCount=1347&color=1E293B&labelColor=0F172A" alt="Profile Views" />
 </div>
-
 
 <br/>
 
