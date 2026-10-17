@@ -7,12 +7,7 @@
 
 
 <div align="center">
-  <img
-    src="https://komarev.com/ghpvc/?username=tejas-bhise&style=for-the-badge&color=555555&label=PROFILE+VIEWS&v=2"
-    alt="GitHub Profile Views"
-    width="180"
-    height="28"
-  />
+  <img src="https://komarev.com/ghpvc/?username=tejas-bhise&style=for-the-badge&color=555555&label=PROFILE+VIEWS&v=20261018b" alt="Profile Views" />
 </div>
 
 
