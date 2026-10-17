@@ -5,9 +5,16 @@
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:f5f5f0,50:e8e8e0,100:f0ede8&height=240&section=header&text=TEJAS%20BHISE&fontSize=72&fontColor=111111&fontAlignY=38&animation=fadeIn&desc=AI%20Backend%20Engineer%20%7C%20Full-Stack%20Developer%20%7C%20Open%20to%20Global%20Opportunities%20%F0%9F%8C%8F&descSize=17&descAlignY=60&descFontColor=222222" />
 </div>
 
+
 <div align="center">
-  <img src="https://komarev.com/ghpvc/?username=tejas-bhise&style=for-the-badge&color=555555&label=PROFILE+VIEWS" />
+  <img
+    src="https://komarev.com/ghpvc/?username=tejas-bhise&style=for-the-badge&color=555555&label=PROFILE+VIEWS&v=2"
+    alt="GitHub Profile Views"
+    width="180"
+    height="28"
+  />
 </div>
+
 
 <br/>
 
