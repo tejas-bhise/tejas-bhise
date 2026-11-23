@@ -1,81 +1,192 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
+/* ──────────────────────────────────────────────────────────────
+   Design tokens — "Field Notes" system
+   Paper + ink with a single vermilion signal accent.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  --paper: #f4f2ed;
+  --paper-50: #fbfaf7;
+  --ink: #101217;
+  --graphite: #555b67;
+  --signal: #e5452c;
+  --signal-text: #c7361f;
+  --cobalt: #2f4bff;
+  --hair: rgba(16, 18, 23, 0.1);
+  --hair-strong: rgba(16, 18, 23, 0.18);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --nav-h: 72px;
+  color-scheme: light;
 }
 
 @layer base {
-  body {
-    @apply antialiased;
-    background: #0a1628;
-    color: #e4e4e7;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: calc(var(--nav-h) + 24px);
   }
-  
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Manrope', sans-serif;
-    letter-spacing: -0.03em;
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-feature-settings: 'ss01', 'cv11';
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display;
+    letter-spacing: -0.025em;
+  }
+
+  ::selection {
+    background: var(--signal);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  img {
+    max-width: 100%;
   }
 }
 
 @layer components {
-  .glass-hover {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-10;
   }
-  
-  .glass-hover:hover {
-    background: rgba(255, 255, 255, 0.15);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 20px 60px -15px rgba(99, 102, 241, 0.5);
-    transform: translateY(-4px);
+
+  /* Mono annotation label — the "lab notebook" voice of the system */
+  .label {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.14em];
+  }
+
+  .hairline {
+    border-color: var(--hair);
+  }
+
+  /* Accent words keep the same typeface — emphasis comes from colour only. */
+  .serif-accent {
+    font-family: inherit;
+    font-style: normal;
+  }
+
+  /* Tag/pill used for technologies */
+  .tag {
+    @apply inline-flex items-center rounded-full border border-ink/10 bg-white/70 px-3 py-1 text-[12.5px] font-medium text-ink-600 transition-colors duration-300;
+  }
+  .tag:hover {
+    @apply border-ink/25 text-ink;
+  }
+  .tag-dark {
+    @apply inline-flex items-center rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[12.5px] font-medium text-white/75 transition-colors duration-300;
+  }
+  .tag-dark:hover {
+    @apply border-white/25 text-white;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply relative inline-flex select-none items-center justify-center gap-2 overflow-hidden whitespace-nowrap rounded-full px-6 py-3.5 text-[14.5px] font-semibold tracking-[-0.01em] transition-[background-color,color,border-color,box-shadow] duration-300;
+  }
+  .btn-primary {
+    @apply btn bg-ink text-paper shadow-lift hover:bg-ink-800;
+  }
+  .btn-signal {
+    @apply btn bg-signal text-white hover:bg-signal-600;
+  }
+  .btn-ghost {
+    @apply btn border border-ink/15 bg-white/50 text-ink backdrop-blur hover:border-ink/40 hover:bg-white;
+  }
+  .btn-ghost-dark {
+    @apply btn border border-white/20 text-white hover:border-white/50 hover:bg-white/5;
+  }
+  .btn-sm {
+    @apply px-4 py-2 text-[13px];
+  }
+
+  .icon-btn {
+    @apply inline-flex h-11 w-11 items-center justify-center rounded-full border border-ink/10 bg-white/60 text-ink-600 transition-all duration-300 hover:-translate-y-0.5 hover:border-ink/40 hover:bg-white hover:text-ink;
+  }
+
+  /* Paper grain — static, GPU friendly */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.06 0 0 0 0 0.07 0 0 0 0 0.09 0 0 0 0.07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(rgba(16, 18, 23, 0.14) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+  .dot-grid-dark {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
   }
 }
 
+@layer utilities {
+  .mask-fade-x {
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+}
+
+/* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
-
 ::-webkit-scrollbar-track {
-  background: #0a1628;
+  background: var(--paper);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46;
-  border-radius: 4px;
+  background: #cfcabe;
+  border: 3px solid var(--paper);
+  border-radius: 99px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b;
+  background: #a9a397;
 }
 
-::selection {
-  background: rgba(99, 102, 241, 0.25);
-  color: #fafafa;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-*:focus-visible {
-  outline: 2px solid #6366f1;
-  outline-offset: 2px;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }

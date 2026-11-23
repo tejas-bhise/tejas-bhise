@@ -3,7 +3,7 @@
 export const PROJECTS = [
   {
     id: 1,
-    title: "ClarifAiSQL",
+    title: "ClarifaiSQL",
     status: "Completed",
     tagline: "AI-powered natural language to SQL converter with comprehensive explanations and instant results",
     description: "Full-stack application that converts plain English to executable SQL queries, providing educational explanations and instant results.",
