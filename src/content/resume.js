@@ -73,7 +73,6 @@ export const education = [
     institution: "PCET's Nutan Maharashtra Institute of Engineering and Technology",
     location: 'Pune, Maharashtra',
     duration: '2022 – 2026',
-    score: 'CGPA: 8.28',
     status: 'Graduated 2026',
     university: 'Savitribai Phule Pune University (SPPU)',
   },

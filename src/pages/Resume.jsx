@@ -105,7 +105,7 @@ const TOC_IDS = TOC.map((t) => t.id);
 
 const GLANCE = [
   { k: 'Degree', v: education[0].degree, n: `${education[0].status} · ${education[0].university}` },
-  { k: 'Score', v: education[0].score, n: education[0].duration },
+  { k: 'Copyright', v: 'Local E-Connect', n: 'Reg. No. L-133251/2023 · Govt. of India' },
   { k: 'Publication', v: PUBLICATION.venue, n: PUBLICATION.indexed },
   { k: 'Based in', v: education[0].location, n: 'Open to opportunities in India & internationally' },
 ];
@@ -337,10 +337,12 @@ const Resume = () => {
                           </p>
                         )}
                       </div>
-                      <div className="flex h-fit items-center gap-2 whitespace-nowrap rounded-full border border-emerald-600/20 bg-emerald-50 px-3 py-1.5 text-[13px] font-semibold text-emerald-700">
-                        <GraduationCap className="h-4 w-4" aria-hidden="true" />
-                        {edu.score}
-                      </div>
+                      {edu.score && (
+                        <div className="flex h-fit items-center gap-2 whitespace-nowrap rounded-full border border-emerald-600/20 bg-emerald-50 px-3 py-1.5 text-[13px] font-semibold text-emerald-700">
+                          <GraduationCap className="h-4 w-4" aria-hidden="true" />
+                          {edu.score}
+                        </div>
+                      )}
                     </div>
                     <div className="mt-4 flex items-center gap-2 text-[13px] text-ink-500">
                       <MapPin className="h-3.5 w-3.5" aria-hidden="true" />
